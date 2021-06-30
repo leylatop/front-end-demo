@@ -1,0 +1,13 @@
+<!-- 在页面回退时候，不保存选中状态 -->
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<input type="text" autocomplete="off">
+<script>
+    if(window.name != "noReload"){
+    window.name = "noReload";
+    location.reload();
+} else {
+    window.name = "";
+}
+</script>

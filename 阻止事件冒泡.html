@@ -1,0 +1,22 @@
+<script>
+    // 阻止事件冒泡
+    // w3c
+    e.stopPropagation()
+
+    // ie
+    e.cancelBubble = true
+
+    // 兼容
+    window.event ? window.event.cancelBubble = true : e.stopPropagation()
+
+
+    // 取消默认事件
+    // w3c
+    e.preventDefault()
+
+    // ie
+    e.returnValue = false
+
+    // 兼容
+    window.event ? window.event.returnValue = true : e.preventDefault()
+</script>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            float: left;
+            width: 100%;
+            height: 300px;
+            background: #ddd;
+        }
+        .container .middle{
+            height: 300px;
+            /* 居中且为两侧设置空间 */
+            margin: 0 300px;
+            background-color: cyan;
+        }
+        .left{
+            float: left;
+            position: relative;
+            height: 300px;
+            width: 300px;
+            margin-left: -100%;
+            /* 目前是靠左贴边， margin-left:-100%（屏幕宽度）就可以挪到上一行 */
+            background-color: darkblue;
+            
+        }
+        .right {
+            float: left;
+            position: relative;
+            width: 300px;
+            height: 300px;
+            /* 目前是靠左贴边， margin-left:-300px（自身宽度）就可以挪到上一行 */
+            margin-left: -300px;
+            background-color: darkgoldenrod;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="middle"></div>
+    </div>
+    <div class="left"></div>
+    <div class="right"></div>
+</body>
+</html>

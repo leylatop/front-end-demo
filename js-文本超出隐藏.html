@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>超出文字隐藏，展开与收缩(参考至他人思想)-jq22.com</title>
+<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<style>
+.lisDetail_intro h4 
+.intro_box {
+	width:300px;
+	font-size:14px;
+	color:#333;
+	opacity:0;
+}
+.intro_box .intro_con {
+	display:block;
+	overflow:hidden;
+}
+.intro_box .intro_btn {
+	color:rgba(
+	0,0,0,.3);
+	float:right;
+}
+</style>
+</head>
+<body>
+<div class="lisDetail_intro">
+    <h4>课程简介</h4>
+    <div class="intro_box">
+        <p class="intro_con">此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，字数在150字到300字，无配图此处是课程简介，</p>
+        <span class="show_more">展开</span>
+    </div>
+</div>
+
+
+<script>
+function textstr(obj, btn, initFontNum, initTextHeight) {
+
+    let didiText = $(obj).text()
+    let didiHeight = $(obj).height();
+
+    if (didiText.length >= initFontNum && didiHeight > initTextHeight) {
+        $(obj).text($(obj).text().substring(0, initFontNum))
+        $(obj).html($(obj).html() + "...")
+        $(btn).parent().css({
+            "opacity": "1"
+        })
+        $(obj).css({
+            "height": initTextHeight + "px"
+        })
+
+        $(btn).click(function() {
+            let curText = $(obj).text()
+            if (curText.length == initFontNum + 6) {
+                $(obj).css({
+                    "height": didiHeight + "px",
+                    '-moz-transition': '0.6s',
+                    '-webkit-transition': '0.6s',
+                    'transition': '0.6s'
+                })
+                $(btn).text("<<<收起")
+                $(obj).text(didiText)
+
+            } else {
+                $(obj).css({
+                    "height": initTextHeight + "px",
+                    '-moz-transition': '0.6s',
+                    '-webkit-transition': '0.6s',
+                    'transition': '0.6s'
+                })
+                $(btn).text(">>>展开")
+                setTimeout(function() {
+                    $(obj).text($(obj).text().substring(0, initFontNum))
+                    $(obj).html($(obj).html() + "...");
+                }, 500);
+            }
+
+        })
+    } else {
+        $(btn).hide();
+        $(btn).parent().css({
+            "opacity": "1"
+        })
+    }
+}
+textstr(".intro_con", ".intro_btn", 150, 160);
+</script>
+
+</body>
+</html>

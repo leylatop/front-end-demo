@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+
+    .breath-animation{opacity: 0.3;animation:breath 2.5s ease-in infinite;-webkit-animation:breath 2.5s ease-in infinite;}
+    .div1 {height: 80px;width: 80px;
+    }
+    @keyframes breath {
+        from { opacity: 0.3; }    
+        50%  { opacity:   1; }  
+        to   { opacity: 0.3; }  
+    }
+    @-webkit-keyframes breath {
+        from { opacity: 0.3; }    
+        50%  { opacity:   1; }  
+        to   { opacity: 0.3; }  
+    }
+  </style>
+</head>
+<body>
+  <div id="container" style="background-color:#FF6654;position: relative;height: 1000px;"></div>
+  
+  <script src="https://neveragain.allstatics.com/2019/assets/vendor/wsc-vendor.js"></script>
+        <script src="https://neveragain.allstatics.com/2019/assets/script/wsc-override-dc.js"></script>
+        <script src="https://neveragain.allstatics.com/2019/assets/script/wsc-common.js"></script>
+        <script>$(function () { wsc.common.init() })</script>
+        <script>
+          function getRndInteger(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) ) + min;
+          }
+          
+          $(function() {
+            for(var i=0; i<15; i++) {
+              var opt_X = parseInt(getRndInteger(0, 100));
+              var opt_Y = parseInt(getRndInteger(0, 100));
+              var opt_X_2 = parseInt(getRndInteger(0, 100));
+              var opt_Y_2 = parseInt(getRndInteger(0, 100));
+              var r_deg = parseInt(getRndInteger(-15, 15));
+              var r_ani_delay = parseInt(getRndInteger(1, 3));
+              var scale = Math.random().toFixed(2);
+              
+              var star = "<div class='breath-animation position-absolute' style='animation-delay: " + r_ani_delay + "s !important; -webkit-animation-delay: " + r_ani_delay + "s !important;transform: skew(" + r_deg + "deg) scale(" + scale + "); top: " + opt_X + "%; left: " + opt_Y + "%; '><img src='./star-1.svg' class='img-fluid' alt='' /></div>"
+              var point = "<div class='breath-animation position-absolute' style='animation-delay: " + r_ani_delay + "s !important; -webkit-animation-delay: " + r_ani_delay + "s !important;transform:  scale(" + scale + "); top: " + opt_X_2 + "%; left: " + opt_Y_2 + "%; '></div>"
+              
+              $('#container').append(`<div class="div1 breath-animation" style="position:absolute;animation-delay: ${r_ani_delay}s !important; -webkit-animation-delay: ${r_ani_delay}s !important;transform: skew(${r_deg}deg) scale(${scale}); top: ${opt_X}%; left: ${opt_Y}%; ">
+                                        <img src="./Star.svg" style="width: 100% ;height: 100%;" alt="">
+                                      </div>`).append(`<div class="div1 breath-animation" style="position:absolute;animation-delay: ${r_ani_delay}s !important; -webkit-animation-delay: ${r_ani_delay}s !important;transform: scale(${scale}); top: ${opt_X_2}%; left: ${opt_Y_2}%; ">
+                                        <div class="" style="width: 15px; height: 15px;background: #FFFFFF;border-radius: 50%"></div>
+                                      </div>`);
+            }
+          });
+        </script>
+</body>
+</html>

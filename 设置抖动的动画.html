@@ -1,0 +1,93 @@
+<!-- 图片抖动的动画，并且在抖动之间要有时间间隔 -->
+<style>
+    @keyframes activityAnimation {
+        50% {
+            transform: rotate(0deg);
+        }
+        60% {
+            transform: rotate(-20deg)
+        }
+        70% {
+            transform: rotate(20deg);
+        }
+        80% {
+            transform: rotate(-20deg)
+        }
+        90% {
+            transform: rotate(20deg);
+        }
+        100% {
+            transform: rotate(0deg)
+        }
+    }
+    
+    @-moz-keyframes activityAnimation {
+        50% {
+            transform: rotate(0deg);
+        }
+        60% {
+            transform: rotate(-20deg)
+        }
+        70% {
+            transform: rotate(20deg);
+        }
+        80% {
+            transform: rotate(-20deg)
+        }
+        90% {
+            transform: rotate(20deg);
+        }
+        100% {
+            transform: rotate(0deg)
+        }
+    }
+    
+    @-webkit-keyframes activityAnimation {
+        50% {
+            transform: rotate(0deg);
+        }
+        60% {
+            transform: rotate(-20deg)
+        }
+        70% {
+            transform: rotate(20deg);
+        }
+        80% {
+            transform: rotate(-20deg)
+        }
+        90% {
+            transform: rotate(20deg);
+        }
+        100% {
+            transform: rotate(0deg)
+        }
+    }
+    
+    @-o-keyframes activityAnimation {
+        50% {
+            transform: rotate(0deg);
+        }
+        60% {
+            transform: rotate(-20deg)
+        }
+        70% {
+            transform: rotate(20deg);
+        }
+        80% {
+            transform: rotate(-20deg)
+        }
+        90% {
+            transform: rotate(20deg);
+        }
+        100% {
+            transform: rotate(0deg)
+        }
+    }
+    
+    #activity_btn {
+        animation: activityAnimation 1s 0s infinite;
+        -moz-animation: activityAnimation 1s 0s infinite;
+        -webkit-animation: activityAnimation 1s 0s infinite;
+        -o-animation: activityAnimation 1s 0s infinite;
+    }
+</style>

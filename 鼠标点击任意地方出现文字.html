@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body:active::after {
+            transform: translate(-50%, -100%);
+            opacity: 0.5;
+            transition: 0s;
+            left: -999px;
+        }
+        body::after {
+            content: 'qiaoxx';
+            position:fixed;
+            z-index: 999;
+            left: calc(var(--clientx, -999) * 1px);
+            top: calc(var(--clienty, -999) * 1px);
+            transform: translate(-50%, calc(-100% - 20px));
+            opacity: 0;
+            transition: transform .3s, opacity .5s;
+        }
+    </style>
+</head>
+<body>
+    
+</body>
+</html>

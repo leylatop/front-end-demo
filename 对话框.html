@@ -1,0 +1,34 @@
+<div class="main">
+    <div class="content">
+        hhhhhhh<br>
+    hhhhhhh<br>
+    hhhhhhh<br>
+    hhhhhhh<br>
+    hhhhhhh<br>
+    hhhhhhh
+    </div>
+</div>
+<style>
+    .content {
+        padding: 1rem;
+    }
+    .main {
+        background-color: #029f4c;
+        display: inline-block;
+        margin: 3rem;
+        position: relative;
+        border-radius: 10px;
+    }
+    .main::before {
+        content: '';
+        position: absolute;
+        right: 100%;
+        top: 30%;
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-right: 10px solid #029f4c;
+        border-bottom:10px solid transparent;
+        border-left: 10px solid transparent;
+    }
+</style>

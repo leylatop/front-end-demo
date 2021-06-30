@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            position: relative;;
+            height: 300px;
+            background: #ddd;
+            /* 提前为left和right让位 */
+            padding: 0 300px 0;
+        }
+        .container .middle{
+            float: left;
+            width: 100%;
+            height: 300px;
+            background-color: cyan;
+        }
+        .container .left{
+            float: left;
+            position: relative;
+            height: 300px;
+            width: 300px;
+            /* 相对于现在的位置，margin-left:-100%，向左偏移100%，若本行被偏移完了，则偏移上一行 */
+            /* 100%结束后，刚好处于和middle相同的起始位置 */
+            /* 其实本身是要再往左侧偏移自身宽度300px */
+            margin-left: calc(-100% - 300px);
+            /* 或 left:-300px */
+            background-color: darkblue;
+            
+        }
+        .container .right {
+            float: left;
+            position: relative;
+            width: 300px;
+            height: 300px;
+            /* 相对于初始位置，向左偏移600px，为自身宽度和最左侧的宽度 */
+            margin-left: calc(-300 - 300px);
+            background-color: darkgoldenrod;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="middle"></div>
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+</body>
+</html>

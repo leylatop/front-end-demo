@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <style>
+        /* logo轮播 */
+        @-webkit-keyframes scrollToRight {
+            from { -webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0);}
+            to {-webkit-transform: translate3d(0%, 0, 0);transform: translate3d(0%, 0, 0);}
+        }
+        @keyframes scrollToRight {
+            from {-webkit-transform: translate3d(-50%, 0, 0);transform: translate3d(-50%, 0, 0);}
+            to {-webkit-transform: translate3d(0%, 0, 0);transform: translate3d(0%, 0, 0);}
+        }
+        .logo_wrap, .logo_wrap-mobile {
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            margin-bottom: 48px;
+            font-size: 0;
+        }
+
+        .logo_wrap .line_odd {
+            width: 7832px;
+            -webkit-animation: scrollToRight 36s linear infinite;
+            animation: scrollToRight 36s linear infinite;
+        }
+        .logo_wrap .line_even {
+            width: 7832px;
+            -webkit-animation: scrollToRight 30s linear infinite;
+            animation: scrollToRight 30s linear infinite;
+        }
+        .logo_wrap .logo_img, .logo_wrap-mobile .logo_img {
+            width: 25%;
+            display: inline-block;
+        }
+        .logo_wrap .logo_img {padding: 15px;}
+        .logo_wrap-mobile .logo_img {padding: 12px;}
+        .logo_wrap-mobile .line_odd {
+            width: 2176px;
+            -webkit-animation: scrollToRight 36s linear infinite;
+            animation: scrollToRight 36s linear infinite;
+        }
+        .logo_wrap-mobile .line_even {
+            width: 2176px;
+            -webkit-animation: scrollToRight 30s linear infinite;
+            animation: scrollToRight 30s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="py-lg-5 mx-auto">
+        <h2 class="text-center h2-title mb-5 pb-lg-5">
+            与百万同行 <span class="linear-gradient-text-5">见证改变</span>
+        </h2>
+        <div class="logo_wrap-mobile d-lg-none">
+            <div class="line_odd">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-1-mobile.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-1-mobile.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-1-mobile.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-1-mobile.png" alt="">
+            </div>
+            <div class="line_even">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-2-mobile.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-2-mobile.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-2-mobile.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-2-mobile.png" alt="">
+            </div>
+            <div class="line_odd">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-3-mobile.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-3-mobile.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-3-mobile.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-3-mobile.png" alt="">
+            </div>
+        </div>
+        <div class="logo_wrap d-none d-lg-block">
+            <div class="line_odd">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-1.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-1.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-1.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-1.png" alt="">
+            </div>
+            <div class="line_even">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-2.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-2.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-2.png" alt="">
+                <img class="logo_img"  src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/logo-2.png" alt="">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

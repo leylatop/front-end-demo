@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <style>
+        /* 垂直轮播样式 */
+        .carousel-controls .carousel-controls-item {width: 10px;height: 10px;border-radius: 50%; background: #dedede;margin: 10px 0;}
+        .carousel-controls .item-1.control-item-active {background: linear-gradient(223.92deg, #32E2E2 8.23%, #0C99FF 25.48%, #007BFF 66.04%, #916DDC 82.01%, #FF867B 91.07%), #DEDEDE;}
+        .carousel-controls .item-2.control-item-active {background: linear-gradient(233.37deg, #FFBF1C 6.4%, #FF3A3A 31.27%, #FF123D 79.58%, #FF27C3 98.24%), #DEDEDE;}
+        .carousel-controls .item-3.control-item-active {background: linear-gradient(218.81deg, #FFB648 9.46%, #D049FF 36.19%, #6D48FF 73.62%, #2036FF 102.78%), #DEDEDE;}
+        .carousel-controls .item-4.control-item-active {background: linear-gradient(265.88deg, #32E2E2 0.95%, #0C99FF 21.2%, #007BFF 69.07%, #916DDC 85.25%, #FF867B 98.15%), #DEDEDE;}
+        .carousel-controls .item-5.control-item-active {background: linear-gradient(255.72deg, #FAFF00 -14.05%, #34E3AF 20.83%, #00B3BE 64.89%, #615EFF 103.44%), #DEDEDE;}
+        .carousel-text .item-1,
+        .carousel-text .item-2,
+        .carousel-text .item-3,
+        .carousel-text .item-4,
+        .carousel-text .item-5 {
+            transition: display 0.3s ease-in-out;
+            display: none;
+            contain: size;
+        }
+        .carousel-text .control-item-active {
+            display: list-item;
+            contain: none;
+        }
+        @media(min-width:1280px) {
+        .fixed-slide {background-size:  auto 100%; background-position: 175% top;}
+        }
+        @media(min-width:1440px) {
+            .fixed-slide {background-size:  auto 100%; background-position: 235% top;}
+        }
+        @media(min-width:1536px) {
+            .fixed-slide {background-size:  auto 100%; background-position: 180% top;}
+        }
+        @media(min-width:1920px) {
+            .fixed-slide {background-size:  auto 100%; background-position:  right -40% top;}
+        }
+        @media(min-width:2560px) {
+            .fixed-slide {background-size:  auto 100%; background-position:  right top;}
+        }
+
+        /* 渐变文字 */
+        .linear-gradient-text-1 {display: inline-block;color: #1584FC;background-image: -webkit-linear-gradient(238deg, rgba(50, 226, 226, 1),rgba(12, 153, 255, 1),rgba(0, 123, 255, 1),rgba(145, 109, 220, 1),rgba(255, 134, 123, 1));-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        .linear-gradient-text-2 {display: inline-block;color: #FF2B3C;background-image:-webkit-linear-gradient(240.47deg, #FFBF1C 5%, #FF3A3A 25.89%, #FF123D 77.87%, #FF27C3 97.94%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        .linear-gradient-text-3 {display: inline-block;color: #7635FF;background: -webkit-linear-gradient(230deg, rgba(255, 182, 72, 1),rgba(208, 73, 255, 1),rgba(109, 72, 255, 1),rgba(32, 54, 255, 1));-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        .linear-gradient-text-4 {display: inline-block;color: #13CFBB;background-image: -webkit-linear-gradient(220.72deg, #FAFF00 -14.05%, #34E3AF 20.83%, #00B3BE 64.89%, #615EFF 103.44%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+        .linear-gradient-text-5 {display: inline-block;color: #13CFBB;background-image: -webkit-linear-gradient(200.41deg, #32E2E2 0.84%, #0094FF 24.8%, #1B5BFF 51.37%, #EE43BE 74.81%, #FF6543 100.85%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+
+    </style>
+    
+</head>
+<body>
+    <div class="position-relative" style="background-color: #fcfcfc;">
+        <div class="fixed-slide position-absolute w-100" style="transition: background-image 0.5s ease-in-out;height: calc(100vh - 60px);background-image: url('https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/section-bg-1.png'); background-repeat: no-repeat; background-origin: content-box;">
+            <div class="container h-100">
+                <div class="row h-100 align-items-lg-center">
+                    <div class="col-1">
+                        <ul class="carousel-controls list-unstyled mb-0">
+                            <li class="carousel-controls-item item-1 control-item-active"></li>
+                            <li class="carousel-controls-item item-2"></li>
+                            <li class="carousel-controls-item item-3"></li>
+                            <li class="carousel-controls-item item-4"></li>
+                            <li class="carousel-controls-item item-5"></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-5">
+                        <ul class="carousel-text list-unstyled mb-0">
+                            <li class="carousel-text-item item-1 control-item-active">
+                                <h2 class="h2-title mb-4 pb-lg-3">
+                                    <div class="linear-gradient-text-1 mb-3 pb-lg-1 line-height-100">轻松上手</div>
+                                    <div class="line-height-100">快速设计</div>
+                                </h2>
+                                <p class="font-size-super text-gray-1 line-height-175" style="max-width: 448px;">
+                                    简洁易懂的界面，丰富的素材，<br>
+                                    人人可上手，助力快速完成产品设计</p>
+                            </li>
+                            <li class="carousel-text-item item-2">
+                                <h2 class="h2-title mb-4 pb-lg-3">
+                                    <div class="linear-gradient-text-2 mb-3 pb-lg-1 line-height-100">便捷协作</div>
+                                    <div class="line-height-100">一键交付</div>
+                                </h2>
+                                <p class="font-size-super text-gray-1 line-height-175" style="max-width: 448px;">
+                                    云端编辑、实时协作、分享交付，一站完成工作与沟通，让人、事、物在企业中流畅运作
+                                </p>
+                            </li>
+                            <li class="carousel-text-item item-3">
+                                <h2 class="h2-title mb-4 pb-lg-3">
+                                    <div class="linear-gradient-text-3 mb-3 pb-lg-1 line-height-100">设计规范</div>
+                                    <div class="line-height-100">轻松管理</div>
+                                </h2>
+                                <p class="font-size-super text-gray-1 line-height-175" style="max-width: 448px;">
+                                    整合设计素材资料，形成素材设计框架，促进标准化，形成产品设计规范，壮大企业知识库，利于企业资产的积累与传承
+                                </p>
+                            </li>
+                            <li class="carousel-text-item item-4">
+                                <h2 class="h2-title mb-4 pb-lg-3">
+                                    <div class="linear-gradient-text-1 mb-3 pb-lg-1 line-height-100">随时随地</div>
+                                    <div class="line-height-100">让创作发生</div>
+                                </h2>
+                                <p class="font-size-super text-gray-1 line-height-175" style="max-width: 448px;">
+                                    不受场地限制，不管在家还是在公司，或者咖啡店、车站，只要有网，就能开启创作，不受设备系统限制
+                                </p>
+                            </li>
+                            <li class="carousel-text-item item-5">
+                                <h2 class="h2-title mb-4 pb-lg-3">
+                                    <div class="line-height-100 mb-3 pb-lg-1">金融级</div>
+                                    <div class="linear-gradient-text-4 line-height-100">安全服务</div>
+                                </h2>
+                                <p class="font-size-super text-gray-1 line-height-175" style="max-width: 448px;">
+                                    128位 SSL 协议为数据传输加密，AWS 及多级容灾备份，保障数据安全、服务可用性，不再担心数据丢失 我们还支持私有化部署，专属服务器、数据加密， 更安全；独享云资源，速度快又稳
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-slide position-relative">
+            <div class="container">
+                <div class="row justify-content-end">
+                    <div class="col-lg-6">
+                        <div class="position-positive">
+                            <ul class="scroll-controls list-unstyled mb-0">
+                                <li class="scroll-item d-flex align-items-center" style="height: calc(100vh - 60px);">
+                                    <img class="d-block img-fluid img-xxl-auto" src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/img-1.png" style="display: block;">
+                                </li>
+                                <li class="scroll-item d-flex align-items-center" style="height: calc(100vh - 60px);">
+                                    <img class="d-block img-fluid img-xxl-auto" src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/img-2.png" style="display: block;">
+                                </li>
+                                <li class="scroll-item d-flex align-items-center" style="height: calc(100vh - 60px);">
+                                    <img class="d-block img-fluid img-xxl-auto" src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/img-3.png" style="display: block;">
+                                </li>
+                                <li class="scroll-item d-flex align-items-center" style="height: calc(100vh - 60px);">
+                                    <img class="d-block img-fluid img-xxl-auto" src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/img-4.png" style="display: block;">
+                                </li>
+                                <li class="scroll-item d-flex align-items-center" style="height: calc(100vh - 60px);">
+                                    <img class="d-block img-fluid img-xxl-auto" src="https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/img-5.png" style="display: block;">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function throttle(fn, delay) {
+            var run = true
+            return function() {
+                if (!run) return
+                run = false
+                setTimeout(function() {
+                    fn.apply()
+                    run = true
+                }, delay || 100)
+            }
+        }
+        var fixedSlideTop =  $('.fixed-slide').offset().top;    // 该section距离文档流的顶部（减去导航条的高度）
+        var scrollSlideHeight = $('.scroll-slide').height();    // 滚动区域的高度
+        
+        var lastActive = 0;
+        function setPosition(scrollTop) {
+            // 当滚动到当前section时，fixedSlideTop设置成悬浮定位状态；当滚出时，设置成绝对定位状态
+            if((scrollTop + 60) > fixedSlideTop && ((scrollTop + window.innerHeight) < (fixedSlideTop + scrollSlideHeight))) {
+                $('.fixed-slide').removeClass('position-absolute').addClass('position-fixed').css('inset', '60px auto 0px 0');
+                let activeIndex = getActiveIndex(scrollTop);
+                if(activeIndex !== false) {
+                    setActiveStatus(activeIndex);
+                }
+            } else {
+                $('.fixed-slide').removeClass('position-fixed').addClass('position-absolute');
+                // 滚动的位置在当前部分的上面
+                if(scrollTop <= fixedSlideTop) {
+                    $('.fixed-slide').css('inset', '0 auto 0px 0');
+                } else {
+                    // if((scrollTop + window.innerHeight - 60) >= (fixedSlideTop + scrollSlideHeight)) 
+                    // 滚动的位置在当前部分的下面
+                    $('.fixed-slide').css('inset', 'auto auto 0px 0');
+                }
+            }
+        }
+
+        // 设置选中状态
+        function setActiveStatus(index) {
+            console.log(typeof index)
+            $('.carousel-controls .carousel-controls-item').removeClass('control-item-active')
+            $('.carousel-controls .carousel-controls-item').eq(index).addClass('control-item-active');
+            $('.carousel-text .carousel-text-item').removeClass('control-item-active');
+            $('.carousel-text .carousel-text-item').eq(index).addClass('control-item-active');
+            index = index + 1;
+            var url = "url(https://images.wondershare.com/modao/assets/images-2021/website-construction/homepage/section-bg-" + index + ".png)";
+
+            $('.fixed-slide').css('background-image', url)
+        }
+
+        // 获取选中下标
+        function getActiveIndex(scrollTop) {
+            let imgItemLength = $('.scroll-controls .scroll-item').length;
+            let imgParentHeight = $('.scroll-controls').height();
+            let imgItemHeight = imgParentHeight / imgItemLength;
+            let scrollSlideScrollHeight = scrollTop - fixedSlideTop
+            let activeIndex = Math.floor((scrollSlideScrollHeight + Math.floor(imgItemHeight / 3 * 2)) / imgItemHeight);
+            if(activeIndex !== lastActive) {
+                lastActive = activeIndex;
+                return activeIndex;
+            }
+            return false;
+        }
+        function scrollEvent() {
+            var scrollTop = $(window).scrollTop();
+            setPosition(scrollTop);
+        }
+        $(function() {
+            scrollEvent();
+        })
+        $(window).on('scroll', function() {
+            scrollEvent();
+        });
+    </script>
+</body>
+</html>

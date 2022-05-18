@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>缓动动画</title>
+  <style>
+    #div {
+      position: absolute;
+      background: blue;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="div"></div>
+  <script src="./js/animate.js"></script>
+  <script>
+    const div = document.getElementById('div')
+    const animate = new Animate(div)
+    animate.start('left', 500, 5000, 'linear')
+    const animate2 = new Animate(div)
+    animate2.start('top', 500, 5000, 'linear')
+  </script>
+</body>
+
+</html>

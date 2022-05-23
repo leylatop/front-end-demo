@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <a href="https://cdn.modao.cc/%E7%A7%81%E6%9C%89%E5%8C%96%E9%83%A8%E7%BD%B2%E4%BB%8B%E7%BB%8D-20211011.pdf" target="_blank" id="donwload_in_privatize">点我下载文件</a>
+
+  <!-- <a id="donwload_in_privatize">点我下载文件</a> -->
+
+  <script>
+    const $downloadBtn = document.querySelector('#donwload_in_privatize')
+    const $url = 'https://cdn.modao.cc/%E7%A7%81%E6%9C%89%E5%8C%96%E9%83%A8%E7%BD%B2%E4%BB%8B%E7%BB%8D-20211011.pdf'
+    const $filename = '墨刀私有化部署'
+
+    // forced download func
+    function forceDownload(blob, filename) {
+      // Create an invisible anchor element
+      const anchor = document.createElement('a')
+      anchor.style.display = 'none'
+      anchor.href = window.URL.createObjectURL(blob)
+      anchor.setAttribute('download', filename)
+      document.body.appendChild(anchor)
+
+      // Trigger the download by simulating click
+      anchor.click()
+
+      // Clean up
+      window.URL.revokeObjectURL(anchor.href)
+      document.body.removeChild(anchor)
+    }
+    function downloadResource(url, filename) {
+      // const isiOS = navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+      const isiOSPhone = navigator.userAgent.indexOf('iPhone')
+      const isiOSPad = navigator.userAgent.indexOf('iPad')
+      if (isiOSPhone > 0 || isiOSPad > 0) return
+
+      // If no filename is set, use filename from URL
+      // if (!filename) filename = url.match(/\/([^/#?]+)[^/]*$/)[1];
+
+      fetch(url, {
+        headers: new Headers({
+          Origin: window.location.origin
+        }),
+        mode: 'cors'
+      })
+        .then(response => response.blob())
+        .then(blob => forceDownload(blob, filename))
+        .catch(e => console.error(e))
+    }
+
+    $downloadBtn.addEventListener('click', () =>{
+      downloadResource($url, $filename)
+    })
+  </script>
+</body>
+
+</html>

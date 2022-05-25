@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 主题 -->
+  <!-- <link rel="stylesheet" href="./assets/default.css"> -->
+  <style>
+    code {
+    width: max-content;
+
+    /* -webkit-touch-callout:none;
+
+  -webkit-user-select: none;
+
+  -khtml-user-select:none;
+
+  -moz-user-select:none;
+
+  -ms-user-select:none;
+
+  user-select:none; */
+
+  /* cursor: text; */
+  }
+  </style>
+</head>
+
+<body>
+  <pre>
+    <code id="code-box">
+/* 矩形 */
+width: 198px;
+height: 403px;
+font-size: 288px;
+font-family: PingFangSC-Medium, PingFang SC;
+
+font-weight: 500;
+color: #FFFFFF;
+line-height: 403px;
+    </code>
+  </pre>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js" ></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/copy-to-clipboard@3.3.1/index.min.js" async></script> -->
+<script>
+  hljs.highlightAll()
+  
+  setTimeout(() => {
+    const regex = new RegExp(/\n/)
+    let childrenNodes = [...Array.prototype.slice.call(document.getElementById("code-box").childNodes)];
+    // 1. 将code 子节点转化成类数组 以 '\n' 分隔开，每个为一组
+    let sliceChildrenNodes = []
+    while(childrenNodes.length > 1) {
+      const i = childrenNodes.findIndex((node) => regex.test(node.data))
+      const children = childrenNodes.slice(0, i + 1)
+      // 循环隔离的数组，获取每组的rect
+      if(children.length !== 0) {
+        const rects = getRect(children)
+        const groupRect = enclosingRects(rects)
+        groupRect.w = document.getElementById('code-box').getBoundingClientRect().width
+
+        sliceChildrenNodes.push({
+          children,
+          rect: groupRect
+        })
+      }
+      
+      childrenNodes = childrenNodes.slice(i + 1)
+    }
+  
+    // 2. 循环隔离的数组，获取每组的rect
+    function getRect(elements) {
+      if(elements.length === 0) return []
+      const rects = []
+      elements.forEach(e => {
+        var range = document.createRange();
+        range.selectNode(e)
+        var rect = range.getBoundingClientRect();
+        rects.push(format(rect))
+        range.detach()
+      });
+      return rects
+    }
+
+    function xywh (x, y, w, h) {
+      return { x, y, w, h }
+    }
+
+    function format ({ x, y, width, height }) {
+      return { x, y, w: width, h: height }
+    }
+
+    function enclosingRects(rects) {
+      let minTop = Infinity
+      let minLeft = Infinity
+      let maxRight = -Infinity
+      let maxBottom = -Infinity
+      rects.forEach(i => {
+        minLeft = Math.min(i.x, minLeft)
+        minTop = Math.min(i.y, minTop)
+        maxRight = Math.max(i.x + i.w, maxRight)
+        maxBottom = Math.max(i.y + i.h, maxBottom)
+      })
+      return ltrb(minLeft, minTop, maxRight, maxBottom)
+    }
+
+    function ltrb (l, t, r, b) {
+      return { x: l, y: t, w: r - l, h: b - t }
+    }
+
+    function contains (rect, p) {
+      const { x, y } = p
+      return rect.x <= x && x <= rect.x + rect.w &&
+        rect.y <= y && y <= rect.y + rect.h
+    }
+
+    // 3. mouseUp时，获取鼠标位置在哪个区域内，以此来提取该行信息
+    document.addEventListener('mouseup', (e) => {
+      const text = getCustomCopyText()
+      if(text.length > 0) {
+        console.log('复制的文本为---\n', text)
+        return
+      }
+      const { clientX,clientY } = e
+      sliceChildrenNodes.forEach((nodes) => {
+        const isContains = contains(nodes.rect, { x: clientX, y: clientY})
+        if(isContains) {
+          let text = ''
+          nodes.children.forEach((node) => {
+            text+= (node.innerHTML || node.innerText || node.data || node.nodeValue)
+          })
+          text = trim(text)
+          console.log('复制的文本为---\n', text)
+          // TODO: 将文本复制到剪切板，进行复制
+        }
+      })
+    })
+
+    function trim(str) {
+      return str.replace(/^\s+|\s+$/g,'')
+    }
+
+    function getCustomCopyText () {
+      let txt
+      if (document.selection) { // 判断是否是ie浏览器
+        txt = document.selection.createRange().text.toString()
+      } else {
+        txt = document.getSelection().toString() // 其他浏览器
+      }
+      return txt
+    }
+  }, 0);
+</script>
+</body>
+
+</html>

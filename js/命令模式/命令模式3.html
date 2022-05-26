@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="ball" style="position: absolute; width: 50px; height: 50px; background: #333; border-radius: 50%"></div>
+  小球移动后的位置<input type="text" id="pos">
+  <button id="moveBtn">开始移动</button>
+  <button id="cancelBtn">回退</button>
+
+  <script src="../animate.js"></script>
+  <script>
+    const ball = document.getElementById('ball')
+    const pos = document.getElementById('pos')
+    const moveBtn = document.getElementById('moveBtn')
+    const cancelBtn = document.getElementById('cancelBtn')
+
+    class MoveCommand {
+      constructor(receiver, target, prototypeName) {
+        this.receiver = receiver
+        this.target = target
+        this.lastPos = null
+        this.prototypeName = prototypeName
+      }
+
+      execute = () => {
+        this.receiver.start(this.prototypeName, this.target, 1000, 'strongEaseOut')
+        this.lastPos = this.receiver.dom.getBoundingClientRect()[this.prototypeName]
+        // 记录开始位置
+      }
+      undo = () => {
+        this.receiver.start(this.prototypeName, this.lastPos, 1000, 'strongEaseOut')
+      }
+    }
+
+   let moveCommand
+
+    moveBtn.onclick = () => {
+      // 代理模式
+      const animate = new Animate(ball)
+      moveCommand = new MoveCommand(animate, pos.value, 'left')
+      moveCommand.execute()
+    }
+
+    cancelBtn.onclick = () => {
+      moveCommand.undo()
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>滚动条滑动显示/不滑动隐藏</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: transparent;
+    }
+
+    .qxx-show-scrollbar::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: #333;
+    }
+
+    .qxx-hide-scrollbar {
+      height: 50vh;
+      flex: 1;
+      overflow: auto;
+      transition: all 300ms;
+      box-sizing: border-box;
+      border: 1px solid green;
+    }
+
+    .small {
+      height: 3000px;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="display: flex; justify-content: center">
+    <div class="qxx-hide-scrollbar">
+      <div class="small">
+        1. 默认隐藏滚动条
+        <br>
+        2. scroll该区域，才显示滚动条
+        <br>
+        3. 一段时间没有滚动就隐藏滚动条
+      </div>
+    </div>
+
+    <div class="qxx-hide-scrollbar">
+      <div class="small">
+        1. 默认隐藏滚动条
+        <br>
+        2. scroll该区域，才显示滚动条
+        <br>
+        3. 一段时间没有滚动就隐藏滚动条
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let timer = null;
+    document.querySelectorAll('.qxx-hide-scrollbar').forEach(e => {
+      e.addEventListener('scroll', function (e) {
+        // 每次滑动之前先清空一下定时器
+        const target = e.target
+        clearTimeout(timer);
+        target.classList.add('qxx-show-scrollbar')
+        timer = setTimeout(() => {
+          JudgeScroll(target)
+        }, 300);
+      })
+    })
+    function JudgeScroll(target) {
+      target.classList.remove('qxx-show-scrollbar')
+    }
+  </script>
+</body>
+
+</html>

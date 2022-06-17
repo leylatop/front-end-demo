@@ -9,21 +9,29 @@
 </head>
 
 <body>
+  <img id="myImage" src="https://www.google.com.hk/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt=""
+    srcset="" style="width: 60px; height: 30px;">
   <script>
-    function getImageOriginSize(img_url) {
-      var img = new Image()
-      img.src = img_url
-      if (img.complete) {
-        alert('from:complete : width:' + img.width + ',height:' + img.height)
-      } else {
-        img.onload = function () {
-          alert('width:' + img.width + ',height:' + img.height)
+    function getImgNaturalDimension(img, callback) {
+      if (typeof img.naturalWidth == "undefined") { // IE6/7/8
+        var temImg = new Image();
+        temImg.src = img.src;
+        temImg.onload = function () {
+          callback({ width: temImg.width, height: temImg.height });
         }
+      } else { // 现代浏览器
+        callback({ width: img.naturalWidth, height: img.naturalHeight });
       }
     }
-    
-    let url = 'https://www.google.com.hk/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png'
-    getImageOriginSize(url)
+
+    window.onload = () => {
+      var img = document.getElementById('myImage');
+      console.log("显示尺寸：", img.width, img.height);
+
+      getImgNaturalDimension(img, function (dimension) {
+        console.log("实际尺寸：", dimension.width, dimension.height);
+      });
+    }
   </script>
 </body>
 

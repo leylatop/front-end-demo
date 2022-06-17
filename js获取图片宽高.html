@@ -12,15 +12,15 @@
   <img id="myImage" src="https://www.google.com.hk/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt=""
     srcset="" style="width: 60px; height: 30px;">
   <script>
+    /**
+     * 整体思路，需要将图片下载一次
+     * 然后获取img对象的 width/height
+     */
     function getImgNaturalDimension(img, callback) {
-      if (typeof img.naturalWidth == "undefined") { // IE6/7/8
-        var temImg = new Image();
-        temImg.src = img.src;
-        temImg.onload = function () {
-          callback({ width: temImg.width, height: temImg.height });
-        }
-      } else { // 现代浏览器
-        callback({ width: img.naturalWidth, height: img.naturalHeight });
+      var temImg = new Image();
+      temImg.src = img.src;
+      temImg.onload = function () {
+        callback({ width: temImg.width, height: temImg.height });
       }
     }
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function getImageOriginSize(img_url) {
+      var img = new Image()
+      img.src = img_url
+      if (img.complete) {
+        alert('from:complete : width:' + img.width + ',height:' + img.height)
+      } else {
+        img.onload = function () {
+          alert('width:' + img.width + ',height:' + img.height)
+        }
+      }
+    }
+    
+    let url = 'https://www.google.com.hk/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png'
+    getImageOriginSize(url)
+  </script>
+</body>
+
+</html>

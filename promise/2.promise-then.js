@@ -93,6 +93,10 @@ class Promise {
   // 实例的then可以被多次调用
   // then可以链式调用（需要在then方法中return 一个新的promise实例）
   then(onFulFilled, onRejected) {
+    // 对 onFulFilled 和 onRejected为 undifined时候进行处理，实现then的穿透特性
+    onFulFilled = typeof onFulFilled === 'function' ? onFulFilled : v => v
+    onRejected = typeof onRejected === 'function' ? onRejected : r => { throw r }
+  
     // 将第一个promise的then的 onFulFilled 和 onRejected放到promise2的执行器中，立即执行
     // 拿到 第一个promise的then的 onFulFilled 和 onRejected 的返回值 x，传到第二个then的 resolve中
     const promise2 = new Promise((resolve, reject) => {

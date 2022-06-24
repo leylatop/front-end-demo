@@ -10,7 +10,49 @@ const REJECTED = 'REJECTED'
  * @param {*} reject 新promise的reject
  */
 function resolvePromise(promise2, x, resolve, reject) {
-  resolve(x)
+  if (promise2 === x) {
+    return reject(new TypeError('Chaining cycle detected for promise #<MyPromise>'))
+  }
+
+  // 是一个对象或者function，满足这两个条件才可能是个promise
+  if ((typeof x === 'object' && x !== null) || (typeof x === 'function')) {
+    try {
+      let called = false // 保证不被多次调用
+      // Object.defineProperty(x, 'then', {
+      //   get() { throw new Error('error')}
+      // })
+      // 如果x是个对象，获取then的时候，也有可能会报错
+      // 因为then可能是由 defineProperty 定义出来的属性
+      let then = x.then
+      // 能正确调用then方法，我们就认为它是个promise
+      if(typeof then === 'function') {
+        // 使用call调用then 1. 避免重复获取then值可能会报错 defineProperty  2. 将then中的this指向x
+        // 同x.then(() => {}, () => {})
+        then.call(x, y => {
+          // 对y值再递归一下 resolvePromise（若y是普通值，就直接调用resolve； 若y是promise，则再递归一下 resolvePromise）
+          // ************
+          // **若解析出的结果是promise，则一直解析， 直到最终解析出普通值，
+          // **将值作为参数放到promise2的resolve参数，调用resolve
+          // ************
+          if(called) return
+          called = true
+          resolvePromise(promise2, y, resolve, reject)
+        }, r => {
+          if(called) return
+          called = true
+          reject(r)
+        })
+      } else {
+        resolve(x)
+      }
+    } catch(e) {
+      if(called) return
+      called = true
+      reject(e)
+    }
+  } else {
+    resolve(x)
+  }
 }
 
 class Promise {

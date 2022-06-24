@@ -36,3 +36,21 @@ promise3.then((value) => {
 }, () => {
   
 })
+
+const promise4 = promise1.then((data) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(new Promise((resolve) => {
+        setTimeout(() => {
+          resolve('1000')
+        }, 1000)
+      }))
+    }, 1000)
+  })
+})
+promise4.then((value) => {
+  console.log('promise4---', value);
+}, (err) => {
+  console.log('promise4--err--', err);
+  
+})

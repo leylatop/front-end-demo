@@ -154,4 +154,18 @@ class Promise {
   }
 }
 
+// 产生延迟对象的方法
+Promise.deferred = function() {
+  let dfd = {}
+  // promisea+中提供了测试方法，会调用 Promise.deferred 获取到promise 实例、resolve、reject
+  // 测试方法
+  // 1. 全局安装 npm install promises-aplus-tests -g
+  // 2. promises-aplus-tests + 文件名
+  dfd.promise = new Promise((resolve, reject) => {
+    dfd.resolve = resolve
+    dfd.reject = reject
+  })
+  return dfd
+}
+
 module.exports = Promise

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>设置音频自动播放的方案</title>
+  <style>
+    #btn {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    video {
+      width: 300px;
+      height: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    背景：防止自动播放骚扰用户，最新 chrome 浏览器不支持自动播放
+  </div>
+  <hr>
+  <div>
+    <div>
+      1. 设置静音, 引导用户点击取消静音
+    </div>
+    <video controls src="https://cdn.modao.cc/Default_audio.mp3" muted autoplay></video>
+  </div>
+
+  <br>
+  <br>
+  <br>
+
+  <div>
+    <div id="btn">
+      2. 通过点击这里触发播放音频
+    </div>
+    <video id="video" controls src="https://cdn.modao.cc/Default_audio.mp3" autoplay></video>
+  </div>
+
+  <script>
+    document.getElementById('btn').addEventListener('click', () => {
+      document.getElementById('video').play()
+    })
+  </script>
+</body>
+
+</html>

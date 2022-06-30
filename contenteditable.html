@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>元素是否可被用户编辑</title>
+</head>
+<body>
+  <div>
+    contenteditable：元素是否可被用户编辑<br>
+    - true 或空字符串，表示元素是可编辑的。<br>
+    - false 表示元素不是可编辑的。<br>
+    - 如果父元素可编辑，该子元素也可编辑<br>
+  </div>
+  <br>
+  <div>
+    spellcheck：是否可以检查元素的拼写错误<br>
+    - true, 设置在可能的情况下会去检查元素内容的拼写错误<br>
+    - false, 设置在可能的情况下关闭对元素内容拼写检查<br>
+    - 当有祖先元素的 spellcheck 设置为 true 的情况下，子元素的默认值也是 true<br>
+  </div>
+  <br>
+  <br>
+  <div data-role="input" style="padding: 8px;">
+    <span spellcheck="false" contenteditable="plaintext-only">黄金时段</span>
+  </div>
+</body>
+</html>

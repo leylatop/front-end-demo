@@ -1,5 +1,4 @@
-const Promise = require('./2.promise-then')
-
+const Promise = require('./promise')
 const promise1 = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve(1) // 执行下一个then的onFulFilled

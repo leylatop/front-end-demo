@@ -68,6 +68,12 @@ class Promise {
     this.onRejectedCallbacks = []
 
     const resolve = (value) => {
+      // 若value值是promise
+      // 则将自己的resolve和reject作为value的onFulFilled和inRejected
+      // 且return
+      if(value instanceof Promise) {
+        return value.then(resolve, reject)
+      }
       if (this.status === PENDING) {
         this.status = FULFILLED
         this.value = value
@@ -152,6 +158,11 @@ class Promise {
 
     return promise2
   }
+
+  // 支持错误捕获，本质是个then方法
+  catch (onRejected) {
+    return this.then(null, onRejected)
+  }
 }
 
 // 产生延迟对象的方法
@@ -167,5 +178,21 @@ Promise.deferred = function() {
   })
   return dfd
 }
+
+Promise.resolve = function(value) {
+  return new Promise((resolve, reject) => {
+    // 执行resolve，对value的值进行判断
+    resolve(value)
+  })
+}
+
+Promise.reject = function(value) {
+  return new Promise((resolve, reject) => {
+    // 直接执行，走到下一个then的onRejected，无需判断数据类型
+    // 如果执行了 Promise.reject，value且是promise，则 executor 内部如果执行了reject会报错
+    reject(value)
+  })
+}
+
 
 module.exports = Promise

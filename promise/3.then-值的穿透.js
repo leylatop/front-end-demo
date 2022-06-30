@@ -1,4 +1,4 @@
-const Promise = require('./2.promise-then')
+const Promise = require('./promise')
 
 const p = new Promise((resolve, reject) => {
   reject('ok')

@@ -1,4 +1,4 @@
-const Promise = require('./2.promise')
+const Promise = require('./promise')
 const promise = new Promise((resolve, reject) => {
   // 正确调用
   // resolve('ok')

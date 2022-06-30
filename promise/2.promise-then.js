@@ -16,8 +16,8 @@ function resolvePromise(promise2, x, resolve, reject) {
 
   // 是一个对象或者function，满足这两个条件才可能是个promise
   if ((typeof x === 'object' && x !== null) || (typeof x === 'function')) {
+    let called = false // 保证不被多次调用
     try {
-      let called = false // 保证不被多次调用
       // Object.defineProperty(x, 'then', {
       //   get() { throw new Error('error')}
       // })

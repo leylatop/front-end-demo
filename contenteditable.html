@@ -5,6 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>元素是否可被用户编辑</title>
+
+  <style>
+    .input-span {
+      outline: none;
+    }
+  </style>
 </head>
 <body>
   <div>
@@ -22,8 +28,16 @@
   </div>
   <br>
   <br>
+  <br>
   <div data-role="input" style="padding: 8px;">
-    <span spellcheck="false" contenteditable="plaintext-only">黄金时段</span>
+    <span class="input-span" spellcheck="false" contenteditable="plaintext-only">黄金时段</span>
+  </div>
+
+  <div data-role="input" style="padding: 8px;">
+    <span class="input-span"  spellcheck="false" contenteditable="plaintext-only">黄金时段</span>
+  </div>
+  <div data-role="input" style="padding: 8px;">
+    <span class="input-span"  spellcheck="false" contenteditable="plaintext-only">黄金时段</span>
   </div>
 </body>
 </html>

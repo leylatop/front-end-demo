@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .modal {
+      width: 300px;
+      height: 200px;
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+    .modal1 {
+      background-color: aqua;
+    }
+    .modal2 {
+      background-color: gold;
+    }
+    .modal3 {
+      background-color: palegreen;
+    }
+    .modal4 {
+      background-color: salmon;
+    }
+    .modal5 {
+      background-color: blueviolet;
+    }
+    .modal6 {
+      background-color: chocolate;
+    }
+  </style>
+</head>
+<body>
+  <div class="modal modal1">modal1</div>
+  <div class="modal modal2">modal2</div>
+  <div class="modal modal3">modal3</div>
+  <div class="modal modal4">modal4</div>
+  <div class="modal modal5">modal5</div>
+  <div class="modal modal6">modal6</div>
+  <script>
+    // document.querySelector('.modal1').style.display = 'block'
+    // document.querySelector('.modal2').style.display = 'block'
+    // document.querySelector('.modal3').style.display = 'block'
+    // document.querySelector('.modal4').style.display = 'block'
+    // document.querySelector('.modal5').style.display = 'block'
+  </script>
+  <script>
+    function PriorityQueue() {
+      function Queue(name, priority) {
+        this.name = name
+        this.priority = priority
+      }
+
+      this.list = []
+      PriorityQueue.prototype.enqueue = function(name, priority) {
+        const item = new Queue(name, priority)
+        if(this.list.length === 0) {
+          this.list.push(item)
+        } else {
+          let added = false
+          for(let i = 0; i < this.list.length; i++) {
+            if(item.priority < this.list[i].priority) {
+              added = true
+              this.list.splice(i, 0, item)
+              break
+            }
+          }
+
+          if(!added) {
+            this.list.push(item)
+          }
+        }
+      }
+
+      PriorityQueue.prototype.next = function () {
+        const item = this.list.shift()
+        dispatch(item)
+      }
+    }
+
+    function dispatch(item) {
+      document.querySelectorAll(`.modal`).forEach(e => {
+        e.style.display = 'none'
+      })
+      if(!item.name) return
+      document.querySelector(`.${item.name}`).style.display = 'block'
+    }
+
+    const modalNameQueue = new PriorityQueue()
+    modalNameQueue.enqueue('modal6', 1) // 弹窗优先级
+    modalNameQueue.enqueue('modal5', 6)
+    modalNameQueue.enqueue('modal4', 3)
+    modalNameQueue.enqueue('modal3', 4)
+    modalNameQueue.enqueue('modal2', 5)
+    modalNameQueue.enqueue('modal1', 2)
+
+    // 假设触发成功
+    setTimeout(() => {
+      modalNameQueue.next()
+    }, 2000)
+
+    document.querySelectorAll('.modal').forEach(e => {
+      e.addEventListener('click', function() {
+        modalNameQueue.next()
+      })
+    })
+  </script>
+</body>
+</html>

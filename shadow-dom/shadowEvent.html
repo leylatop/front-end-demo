@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="shadow-host-parent" style="padding: 20px">
+    <div class="shadow-host" style="border:1px solid #000;padding:10px"></div>
+  </div>
+  <!-- 当事件还在 Shadow DOM 内部传播时，Event.target准确的反映了当前触发事件的元素
+  而当事件传播一旦到达 Shadow Host时，后续的事件中 Event.target则变为了 Shadow Host元素
+  可能这也是作为一种保护机制，不能在外部直接拿到Shadow DOM内部的元素。 -->
+  <script>
+    (function() {
+      const shadowHostParent = document.querySelector('.shadow-host-parent')
+      const shadowHost = document.querySelector('.shadow-host')
+      const shadowRoot = shadowHost.attachShadow({ mode:"closed"})
+      console.log('---shadowRoot', Object.prototype.toString.call(shadowRoot))
+      const shadowDiv = document.createElement('div');
+      const shadowSpan = document.createElement('span');
+      shadowSpan.innerText = 'i am shadow span';
+      shadowDiv.appendChild(shadowSpan);
+      shadowRoot.appendChild(shadowDiv);
+      shadowSpan.onclick = function (e) {
+        console.log('事件触发的target: ', e.target)
+        console.log('shadow span 被点击了!');
+        console.log('')
+      }
+      shadowDiv.onclick = function (e) {
+        console.log('事件触发的target: ', e.target)
+        console.log('冒泡到shadow span 的父div!');
+        console.log('')
+      }
+      shadowHost.onclick = (e) => {
+        console.log('事件触发的target: ', e.target)
+        console.info('冒泡到 shadow host!');
+        console.log('')
+      }
+      shadowHostParent.onclick = (e) => {
+        console.log('事件触发的target: ', e.target)
+        console.log('冒泡到 shadow host 的父级元素!');
+        console.log('')
+      }
+      document.onclick = function (e) {
+        console.log('事件触发的target: ', e.target)
+        console.log('冒泡到document!');
+        console.log('')
+      }
+    })()
+  </script>
+</body>
+</html>

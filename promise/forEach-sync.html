@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForEach sync</title>
+</head>
+
+<body>
+  <div>
+    <h1>ForEach sync</h1>
+    <p>forEach同步的方法</p>
+  </div>
+  <script>
+    (async function () {
+      const array = [1, 2, 3];
+      const outputMap = {};
+      // 两种方法实现forEach同步的方法，一种是使用Promise，一种使用async/await，本质上都是使用Promise
+      const syncFunc = async (id) => {
+        const res = await fetch("https://api.spotify.com/v1/me");
+        console.log("---id", id);
+        outputMap[id] = true;
+      };
+      const syncFunc2 = (id) => {
+        return new Promise((resolve, reject) => {
+          fetch("https://api.spotify.com/v1/me").then(() => {
+            console.log("---id", id);
+            outputMap[id] = true;
+            resolve()
+          })
+        })
+      }
+      const syncFunc3 = (id) => {
+        return new Promise((resolve) => {
+          console.log("---id", id);
+          console.log(new Date().getTime());
+          resolve()
+        })
+      }
+      const promiseArray = [];
+      array.forEach((item) => {
+        promiseArray.push(syncFunc3(item));
+      });
+      // Promise.all(promiseArray).then(() => {
+      //   console.log(outputMap);
+      // });
+      await Promise.all(promiseArray)
+      console.log("outputMap", outputMap);
+    })()
+
+  </script>
+</body>
+
+</html>

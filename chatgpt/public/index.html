@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatGPT「基于MD后台」</title>
+  <link rel="icon" id="icon" href="./favicon.ico">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"> -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";
+    }
+
+    .message {
+      padding: 0 16px;
+      border-radius: 8px;
+      width: fit-content;
+      line-height: 150%;
+    }
+
+    .message.system {
+      background-color: rgb(244, 244, 245);
+      color: #000000;
+    }
+
+    .message.user {
+      background-color: rgb(59, 130, 246);
+      color: #FFFFFF;
+    }
+
+    .message.assistant {
+      background-color: rgb(244, 244, 245);
+      color: #000000;
+    }
+    
+    .message p {
+      padding: 16px 0; 
+    }
+
+    .message ol {
+      list-style: decimal;
+      padding-left: 16px;
+      margin: 16px 0;
+    }
+
+    .message code {
+      font-size: 14px;
+      font-weight: 700
+    }
+
+    .message ul {
+      list-style: disc;
+      padding-left: 16px;
+      margin: 16px 0
+    }
+
+    .message ol {
+      list-style: decimal;
+      padding-left: 16px;
+      margin: 16px 0;
+    }
+
+    .message li p {
+      padding: 10 0
+    }
+
+    .container {
+      width: 70%;
+      height: 100vh;
+      padding: 30px 0;
+      margin: auto;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #logo {
+      width: 64px;
+      height: 64px;
+      margin: auto;
+      margin-bottom: 16px;
+    }
+
+    #title {
+      text-align: center;
+    }
+
+    #history-body {
+      width: 100%;
+      margin: 30px 0;
+      padding-right: 20px;
+      flex-grow: 1;
+      overflow: auto;
+      position: relative;
+    }
+    #history-body::-webkit-scrollbar {
+      display: block;
+      width: 4px;
+      height: 4px;
+    }
+
+    #history-body::-webkit-scrollbar-thumb {
+      background-color: rgb(219, 219, 219);
+    border-radius: 4px;
+    }
+
+    #history-body::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    #chat-body {
+      display: flex;
+    }
+    #input {
+      box-sizing: border-box;
+      border-style: solid;
+      color: inherit;
+      margin: 0;
+      border-radius: 16px;
+      border: 1px solid rgb(156, 163, 175);
+      padding: 8px 10px;
+      height: 42px;
+      font-size: 16px;
+      line-height: 24px;
+      flex: 1;
+    }
+    #clear {
+      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+      padding: 8px 16px;
+      background-color: rgba(0, 0, 0, 0);
+      border-radius: 24px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      margin: 0 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #clear:hover {
+      background-color: rgb(243, 244, 246);
+    }
+    #clear svg {
+      width: 24px;
+      height: 24px;
+      color: rgb(59, 130, 246);
+    }
+    #send {
+      background-color: rgb(37, 99, 235);
+      padding: 8px 16px;
+      border-radius: 24px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #send:hover {
+      background-color: rgb(29 78 216);
+    }
+    #send svg {
+      width: 24px;
+      height: 24px;
+      color: rgb(255, 255, 255);
+    }
+  </style>
+</head>
+
+<body>
+  <section class="container">
+    <img id="logo" src="./favicon.svg" alt="" srcset="">
+    <h1 id="title">
+      <span>ChatGPT「基于MD后台」</span>
+    </h1>
+    <section id="history-body"></section>
+    <section id="chat-body">
+      <!-- <div class="chat-container"> -->
+        <textarea id="input" name="input" placeholder="请输入你的问题"></textarea>
+        <button id="clear" class=""><svg viewBox="0 0 24 24" width="1em" height="1em"><path fill="currentColor" d="m16.536 15.95l2.12-2.122l-3.181-3.182l3.535-3.535l-2.12-2.121l-3.536 3.535l-3.182-3.182L8.05 7.464l8.486 8.486zm-1.415 1.414L6.636 8.879l-2.828 2.828l8.485 8.485l2.828-2.828zM13.354 5.697l2.828-2.829a1 1 0 0 1 1.414 0l3.536 3.536a1 1 0 0 1 0 1.414l-2.829 2.828l2.475 2.475a1 1 0 0 1 0 1.415L13 22.314a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414l7.778-7.778a1 1 0 0 1 1.415 0l2.475 2.475z"></path></svg></button>
+        <button id="send" class=""><svg viewBox="0 0 24 24" width="1em" height="1em"><path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8l-8 6l-8.054-2.685z"></path></svg></button>
+      <!-- </div> -->
+    </section>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script> -->
+  <script src="./index.js"></script>
+</body>
+
+</html>

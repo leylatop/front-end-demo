@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .pure-text {
+      color: red;
+    }
+
+    .shadow-host {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <!-- 1. 外部无法通过类选择器改变 Shadow DOM 内元素样式 -->
+  <!-- 2. Shadow Host 元素上的样式能够被继承 -->
+  <!-- 3. Shadow DOM内部应用样式无法改变影响外部元素 -->
+  <div class="shadow-host-parent">
+    <div class="shadow-host"></div>
+    <div class="common-div">
+      <span class="pure-text">
+        我是外部的span
+      </span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const shadowHost = document.querySelector('.shadow-host')
+      const shadowRoot = shadowHost.attachShadow({ mode: 'closed' })
+      const shadowSpan = document.createElement('span')
+      shadowSpan.classList.add('pure-text')
+      shadowSpan.innerText = '我是shadow root中的span'
+      const shadowStyle = document.createElement('style')
+      shadowStyle.textContent = `
+        .pure-text { color: yellow }
+      `;
+      shadowRoot.appendChild(shadowStyle)
+      shadowRoot.appendChild(shadowSpan)
+    })();
+  </script>
+</body>
+</html>

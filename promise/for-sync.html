@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise 异步依次打印数组</title>
+</head>
+<body>
+  <div>
+    使用async/await结合for...of循环来实现异步依次打印数组的item.
+  </div>
+  <div>
+    for循环内部可以直接使用await，因为它是一个普通的循环语句，它会等待异步操作完成后再执行下一次循环。在for循环内部使用await时，它会阻塞当前循环，等待异步操作完成后再继续执行下一次循环。因此，for循环内部可以使用await来等待异步操作完成。
+<br/>
+而forEach/every/some这些数组的回调方法不可以是异步的方法，是因为它们是一个回调函数，它们会在遍历数组时被调用，而不是在一个普通的循环语句中执行。当它们被调用时，它们会立即返回，并不会等待异步操作完成。因此，在这些回调函数内部使用await是没有意义的，它们会立即返回，并不会等待异步操作完成。
+<br/>
+
+另外，这些数组的回调方法内部不支持使用async/await关键字，是因为它们的返回值会被忽略。当回调函数内部使用async/await时，它们会返回一个Promise对象，但是这个Promise对象会被忽略，因此，使用async/await关键字是没有意义的。
+<br/>
+
+总之，for循环内部可以使用await，因为它是一个普通的循环语句，它会等待异步操作完成后再执行下一次循环。而数组的回调方法不可以是异步的方法，因为它们会立即返回，并不会等待异步操作完成。
+  </div>
+  <script>
+    const myArray = [1, 2, 3, 4, 5];
+    // 使用async/await结合for...of循环来实现异步依次打印数组的item.
+    async function printArrayItems(array) {
+      for (let item of array) {
+        await new Promise(resolve => {
+          setTimeout(() => {
+            console.log(item);
+            resolve();
+          }, 1000);
+        });
+      }
+    }
+    const outputMap = {};
+    // 使用promise结合for...of实现依次请求数组的item
+    async function requestArrayItems(array) {
+      for (let item of array) {
+        await new Promise(resolve => {
+          fetch("https://api.spotify.com/v1/me").then(() => {
+            console.log(item);
+            outputMap[item] = true;
+            resolve();
+          });
+        });
+      }
+      console.log(outputMap);
+    }
+
+    // 使用for...of循环实现依次打印数组的item
+    async function requestArrayItems2(array) {
+      // for...of 内部可以直接使用await的原因是
+      for (let item of array) {
+        const res = await fetch("https://api.spotify.com/v1/me")
+        console.log(item)
+        outputMap[item] = true;
+      }
+
+      console.log(outputMap);
+    }
+
+    // printArrayItems(myArray);
+    requestArrayItems(myArray);
+
+  </script>
+</body>
+</html>

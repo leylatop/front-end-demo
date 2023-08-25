@@ -1,0 +1,299 @@
+<style>
+    #buy-modal .modal-dialog-centered .modal-content {
+        max-width: 1200px;
+        min-width: 1200px;
+        min-width: 1200px;
+        max-height: 670px;
+        height: 670px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: none;
+    }
+
+    #buy-modal .modal-body {
+        padding: 0;
+    }
+    
+    #buy-modal iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 8px;
+    }
+    
+    #buy-modal .close {
+        position: absolute;
+        z-index: 1;
+        right: 18px;
+        outline: none;
+    }
+</style>
+<aside>
+    <div class="modal fade bd-example-modal-xl"  id="buy-modal" tabindex="-1" role="dialog" aria-labelledby="teamModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="close" style="font-size: 2.5rem;" data-dismiss="modal" aria-label="Close">
+                    <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.1018 12.6L12.6917 14L-3.15121e-05 1.4L1.41016 0L14.1018 12.6Z" fill="#5D6F8F"/>
+                        <path d="M1.41036 14L0.000174683 12.6L12.6919 -6.13415e-06L14.1021 1.39999L1.41036 14Z" fill="#5D6F8F"/>
+                    </svg>
+                </button>
+                <div class="modal-body" id="payment-frame-container"></div>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<script>
+    $(function(){
+        const ORG_LITE_PLAN_KEY = 'org_lite'
+        const ORG_FULL_PLAN_KEY = 'org_full'
+        const SOLO_YEARLY_PLAN_KEY = 'solo_yearly'
+        const SOLO_QUARTERLY_PLAN_KEY = 'solo_quarterly'
+        const SOLO_MONTHLY_PLAN_KEY = 'solo_monthly'
+        const SOLO_LIFETIME_PLAN_KEY = 'solo_lifetime'
+        const ORG = 'org'
+        const SOLO = 'solo'
+
+        // mockitt 不同版本对应的license_id
+        const MOCKITT_PLAN_LICENSE_ID_MAP = {
+          [ORG_LITE_PLAN_KEY]: 4228,
+          [ORG_FULL_PLAN_KEY]: 505,
+          [SOLO_YEARLY_PLAN_KEY]: 4232,
+          [SOLO_QUARTERLY_PLAN_KEY]: 4233,
+          [SOLO_MONTHLY_PLAN_KEY]: 4237,
+          [SOLO_LIFETIME_PLAN_KEY]: 4192
+        }
+
+        const encodeJSON = (value) => encodeURIComponent(JSON.stringify(value))
+        const getOrgWebParams = ({ plan, period, isPaypal = false }) => {
+            let payEntrance = ''
+            let checkoutPlace = ''
+            let licenseId = ''
+            let purchaseType = isPaypal ? 'paypal' : 'buy_now'
+
+            var isByTeam = plan === ORG_LITE_PLAN_KEY
+            var isByBusiness = plan === ORG_FULL_PLAN_KEY
+            if (isByTeam) {
+                licenseId = MOCKITT_PLAN_LICENSE_ID_MAP[ORG_LITE_PLAN_KEY]
+                payEntrance = `mockitt-pricing-${purchaseType}_org_team`
+                checkoutPlace = `mockitt-pricing-${purchaseType}_org_team` // 团队版
+            } else if (isByBusiness) {
+                licenseId = MOCKITT_PLAN_LICENSE_ID_MAP[ORG_FULL_PLAN_KEY]
+                payEntrance = `mockitt-pricing-${purchaseType}_org_business`
+                checkoutPlace = `mockitt-pricing-${purchaseType}_org_business` // 企业版
+            }
+            const params = { mode: 'org', licenseId, plan, period, payEntrance, checkoutArea: 'mockitt-price', checkoutPlace, isPaypal, from: 'mockitt-pricing' }
+            return params
+        }
+
+        const getSoloWebParams = ({ plan, period, isPaypal = false }) => {
+            let payEntrance = ''
+            let checkoutPlace = ''
+            let licenseId = ''
+            let purchaseType = isPaypal ? 'paypal' : 'buy_now'
+            var isByMonth = plan === SOLO_MONTHLY_PLAN_KEY
+            var isByQuarter = plan === SOLO_QUARTERLY_PLAN_KEY
+            var isByYear = plan === SOLO_YEARLY_PLAN_KEY
+            var isByLifeTime = plan === SOLO_LIFETIME_PLAN_KEY && !period
+            var isByPersonalPerpetual = plan === SOLO_LIFETIME_PLAN_KEY && period === 'lifeTime'
+            
+            if(isByMonth) {
+                licenseId = MOCKITT_PLAN_LICENSE_ID_MAP[SOLO_MONTHLY_PLAN_KEY]
+                payEntrance = `mockitt-pricing-${purchaseType}-solo_month`
+                checkoutPlace = `mockitt-pricing-${purchaseType}-solo_month`
+            } else if(isByQuarter) {
+                licenseId = MOCKITT_PLAN_LICENSE_ID_MAP[SOLO_QUARTERLY_PLAN_KEY]
+                payEntrance = `mockitt-pricing-${purchaseType}-solo_quarter`
+                checkoutPlace = `mockitt-pricing-${purchaseType}-solo_quarter`
+            } else if(isByYear) {
+                licenseId = MOCKITT_PLAN_LICENSE_ID_MAP[SOLO_YEARLY_PLAN_KEY]
+                payEntrance = `mockitt-pricing-${purchaseType}-solo_year`
+                checkoutPlace = `mockitt-pricing-${purchaseType}-solo_year`
+            } else if (isByLifeTime) {
+                licenseId = MOCKITT_PLAN_LICENSE_ID_MAP[SOLO_LIFETIME_PLAN_KEY]
+                payEntrance = `mockitt-pricing-${purchaseType}-solo_lifeTime`
+                checkoutPlace = `mockitt-pricing-${purchaseType}-solo_lifeTime`
+            } else if (isByPersonalPerpetual){ // 团队购买定价页 新增的购买个人终身版入口
+              licenseId = MOCKITT_PLAN_LICENSE_ID_MAP[SOLO_LIFETIME_PLAN_KEY]
+              payEntrance = `mockitt-pricing-${purchaseType}_personal_perpetual`
+              checkoutPlace = `mockitt-pricing-${purchaseType}_personal_perpetual` 
+              return { mode: 'solo', plan, period, licenseId, payEntrance, checkoutArea: 'mockitt-price', checkoutPlace, isPaypal: isPaypal || false}
+            }
+        
+            const params = { mode: 'solo', licenseId, payEntrance, checkoutArea: 'mockitt-price', checkoutPlace, isPaypal: isPaypal || false, from: 'mockitt-pricing'}
+            return params
+        }
+
+        const getPaymentModalLink = (mode, params) => {
+            const param = encodeJSON(params)
+            if(mode === 'solo') {
+                return `${isDev() ? dev_url: url}${isDev() ? '/embed/payment_modal' : '/embed/payment_modal'}?param=${param}`
+            } else if(mode === 'org') {
+                return  `${isDev() ? dev_url: url}/experience-org?to=renew&opener=iframe&param=${param}`
+            }
+        }
+        
+        function isDev () {
+            return location.host === 'mo.wondershare.com'
+        }
+
+        var redirect_url = location.href;
+        var current_href = ''
+        var url = 'https://mockitt.wondershare.com'
+        var dev_url = 'https://mo.wondershare.com'
+        var user_info = getCookie('user_identity')
+        var options = ''
+        var auth_code = ''
+        var need_popup = false
+
+        var temporary = {
+            mockitt_payment_login_flag: false,
+            mode: '',
+            plan: '',
+            period: ''
+        }
+        window.addEventListener('message', function(e) {
+            if(e.data === 'loginSuccess' || e.data === 'registerSuccess') {
+                // Need to synchronize login status to modao's workspace
+                syncLoginStatusBackgroundFrame(() => {
+                    togglePerpetualPlanBanner()
+                    if(temporary.mockitt_payment_login_flag) {
+                        const { plan, mode, period } = temporary
+                        showPaymentModal(mode, plan, period)
+                    }
+                })
+            }
+        })
+
+        $('.buy-modal').on('click', function() {
+            var user_info = getCookie('user_identity')
+            var mode = $(this).data('mode')
+            var plan = $(this).data('plan')
+            var period = $(this).data('period')
+            // not login
+            if(!user_info) {
+                createLoginFrame('https://accounts.wondershare.com/web/login?redirect_uri=' + location.href + '&source=37&site=' + location.host)
+                temporary = {
+                    mockitt_payment_login_flag: true,
+                    mode,
+                    plan,
+                    period
+                }
+            }else {
+                showPaymentModal(mode, plan, period)
+            }
+            trackSelectPlan(plan)
+        })
+
+        function trackSelectPlan (plan) {
+            var planProduct = ''
+            if (plan === ORG_FULL_PLAN_KEY) {
+                planProduct = 'enterprise'
+            } else if (plan === ORG_LITE_PLAN_KEY) {
+                planProduct = 'professional'
+            } else if (plan === SOLO_LIFETIME_PLAN_KEY) {
+                planProduct = 'perpetual'
+            }
+            if(!planProduct) return 
+            TrackTool && TrackTool.selectPlanForSubscribe && TrackTool.selectPlanForSubscribe()
+        }
+
+        function syncLoginStatusBackgroundFrame(callbackFunc) {
+            const FRAME_ID = 'jump_workspace_in_the_background'
+            let iframe = document.getElementById(FRAME_ID)
+ 
+            if(!iframe) {
+              iframe = document.createElement('iframe')
+              iframe.id = FRAME_ID
+              iframe.style.display = 'none'
+              document.body.appendChild(iframe) 
+            }
+            iframe.src = `${isDev() ? dev_url: url}/wondershare/signin?from=pricing`
+            
+            let isSynced = false
+            let timer = setInterval(function () {
+                if(isSynced) {
+                    clearInterval(timer)
+                    return
+                }
+                if(iframe.contentWindow.location.href === 'https://mockitt.wondershare.com/pricing.html') {
+                    callbackFunc && callbackFunc()
+                    isSynced = true
+                }
+            }, 500)
+        }
+        function showPaymentModal(mode, plan, period) {
+            if(mode === ORG) {
+                var params = getOrgWebParams({ period, plan })
+                var link = getPaymentModalLink(mode, params)
+                createPaymentFrame(link)
+            } else if(mode === SOLO) {
+                var params = getSoloWebParams({ plan, period })
+                var link = getPaymentModalLink(mode, params)
+                createPaymentFrame(link)
+            }
+        }
+
+        function createPaymentFrame(link) { 
+            var iframe = '<iframe height="100%" width="100%" frameborder="0" src="' + link + '"></iframe>'
+            $('#payment-frame-container').html(iframe)
+            $('#buy-modal').modal('toggle')
+        }
+
+        function createLoginFrame(href) { 
+            href = window.ws_redirect_url_login ? href.replace(window.ws_redirect_url_login, location.href) : href
+            var iframe = '<iframe height="600" width="100%" frameborder="0" src="' + href + '&mode=1' + '"></iframe>'
+            $('#login_frame_container').html(iframe)
+            $('#ws_login_modal').modal('toggle')
+        }
+
+        function getCookie(name) {
+            var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            return v ? decodeURIComponent(v[2]) : null;
+        }
+        
+        // check whether to show perpetual plan banner after updating login status
+        function togglePerpetualPlanBanner(){
+            try {
+                fetch(`${isDev() ? dev_url: url}/wondershare/user_detail`, {
+                  method: "GET",
+                  credentials: "include",
+                  referrer: "https://mockitt.wondershare.com"
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // 判断用户是否是终身版用户：未登录 或者 不是终身版用户 展示个人终身版购买入口
+                    var isSoloLifeTime = false
+                    try {
+                      var user = data.user
+                      if(user && user.is_solo_active){
+                        var expiredAtDate = new Date(new Date(user.next_billing_on).setDate(new Date(user.next_billing_on).getDate() - 1))
+                        var todayDate = new Date()
+                        var isBillingExpired = expiredAtDate < todayDate
+                        var isPaid = !isBillingExpired && (user.paid || (user.current_plan === 'solo' && !user.trial))
+                        isSoloLifeTime = isPaid && (['premium_lifetime', 'standard_lifetime'].includes(user.edition) || user.period.toLowerCase() === 'lifetime')
+                      }
+                    } catch(e) {
+                      console.log(e);
+                    }
+
+                    if(!isSoloLifeTime){
+                      $('.container.perpetual-banner').addClass('lifetime')
+                      $('.container.tab-radio-box').addClass('lifetime')
+                    } else {
+                      $('.container.perpetual-banner').removeClass('lifetime')
+                      $('.container.tab-radio-box').removeClass('lifetime')
+                    }
+                    })
+            } catch(e) {
+                $('.container.perpetual-banner').addClass('lifetime')
+                $('.container.tab-radio-box').addClass('lifetime')
+                console.log(e)
+            }
+        }
+        $('.container.perpetual-banner').addClass('lifetime')
+        $('.container.tab-radio-box').addClass('lifetime')
+        togglePerpetualPlanBanner()
+    })
+</script>

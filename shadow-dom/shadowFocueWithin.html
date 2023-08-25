@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .shadow-host-parent {
+      padding: 10px;
+      border: 1px solid transparent;
+
+    }
+    .shadow-host-parent:focus-within {
+      border: 1px solid red;
+    }
+  </style>
+</head>
+<body>
+  <!-- 说即便是Shadow DOM，当其获得焦点时，也会使得外部的父级DOM元素上的focus-within生效 -->
+  <div class="shadow-host-parent">
+    <div class="shadow-host"></div>
+  </div>
+  <script>
+    (function attachShadow() {
+      const shadowHost = document.querySelector('.shadow-host')
+      const shadowRoot = shadowHost.attachShadow({ mode:"closed"})
+      const shadowInput = document.createElement('input')
+      shadowInput.value = 'input'
+      shadowRoot.appendChild(shadowInput)
+    })();
+  </script>
+</body>
+</html>

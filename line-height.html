@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    p {
+      background-color: aqua;
+    }
+    .hello {
+      font-size: 40px;
+      background-color: red;
+      vertical-align: middle;
+    }
+    .nihao {
+      font-size: 60px;
+      background-color: blue;
+      vertical-align: middle;
+
+    }
+    .world {
+      font-size: 50px;
+      background-color: green;
+      vertical-align: middle;
+
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div>
+      <div>line-height 基础知识</div>
+      <p>
+        你好x<span class="hello">hellox</span><span class="nihao">你好x</span><span class="world">worldx</span>
+      </p>
+    </div>
+  </div>
+  <script>
+    const fragment = document.createDocumentFragment()
+    const div = document.createElement('div')
+    // div.textContent = '你好abc'
+    fragment.appendChild(div)
+    document.getElementById('root').appendChild(fragment)
+</script>
+</body>
+</html>

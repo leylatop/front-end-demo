@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 当给一个普通元素附加Shadow DOM后，其原本所包含的所有普通DOM元素都会失效，lll不会显示 -->
+  <!-- 一个普通元素下不会同时存在Shadow DOM 和 普通 DOM。 -->
+  <!-- 虽然仍然可以使用js获取到这部分普通元素，但是浏览器不会将其渲染到页面中。 -->
+  <div class="shadow-host">我是普通dom</div>
+  <button id="btn">添加shadow dom</button>
+  <script>
+    document.getElementById('btn').onclick=attachShadow
+    function attachShadow() {
+      const shadowHost = document.querySelector('.shadow-host')
+      const shadowRoot = shadowHost.attachShadow({mode: 'closed'})
+      const shadowDiv = document.createElement('div')
+      shadowDiv.classList.add('shadow-div')
+      shadowDiv.textContent = '我是shadow div'
+      shadowRoot.appendChild(shadowDiv)
+    }
+  </script>
+</body>
+</html>

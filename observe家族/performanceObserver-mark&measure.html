@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="output">这个元素的id是output</div>
+  <footer id="footer">这里是脚部</footer>
+  <script>
+    // mark标记
+    performance.mark('test-start', {
+      startTime: 0,
+      detail: { htmlElement: 'output' }
+    });
+
+    setTimeout(() => {
+      performance.mark('test-end', {
+        startTime: 360,
+        detail: { htmlElement: 'footer' }
+      });
+
+      const testMeasure = performance.measure(
+        "test-start",
+        "test-end"
+      );
+
+      console.dir(testMeasure);
+    }, 360);
+
+    const observer = new PerformanceObserver(entryList => {
+      entryList.getEntries().forEach((entry) => {
+        var logMark = '';
+        var logMeasure = '';
+        if (entry.entryType === 'mark') {
+          logMark = `${entry.name}的startTime是: ${entry.startTime}`;
+          console.log(logMark);
+        }
+        if (entry.entryType === 'measure') {
+          console.log(logMeasure = `${entry.name}的duration时间是: ${entry.duration}`);
+        }
+      });
+    });
+    observer.observe({
+      entryTypes: ['mark', 'measure']
+    });
+  </script>
+</body>
+
+</html>

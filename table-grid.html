@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .table-grid-wrap {
+      overflow: auto;
+      border: 1px solid #e9eaec;
+      height: 300px;
+    }
+
+    .table-grid {
+      --col: repeat(1, 1fr);
+      width: 100%;
+    }
+
+    .table-grid .table-grid-head .grid-row .grid-cell {
+      border-bottom: 1px solid #e9eaec !important;
+      font-weight: bold;
+      background: #f8f8f9;
+    }
+
+    .grid-line {
+      display: flex;
+      justify-content: space-between;
+    }
+    .table-grid .grid-row {
+      display: grid;
+      grid-template-columns: var(--col);
+      grid-auto-rows: minmax(40px, 1fr);
+    }
+
+    .table-grid .grid-row:first-child .grid-cell {
+      border-top: none;
+    }
+
+    .table-grid .grid-row:last-child .grid-cell {
+      border-bottom: none;
+    }
+
+    .table-grid .grid-row .grid-cell {
+      padding: 10px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      border: 1px solid #e9eaec;
+      border-bottom: none;
+      border-right: none;
+      background: #fff;
+    }
+
+    .table-grid.fix-left .grid-cell:first-child {
+      position: sticky;
+      left: 0;
+      top: auto;
+      border-right: 1px solid #e9eaec;
+      box-shadow: 2px 0 6px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    .table-grid.fix-right .grid-cell:last-child {
+      position: sticky;
+      right: 0;
+      top: auto;
+      box-shadow: -2px 0 6px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    .table-grid.fix-header .table-grid-head {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="table-grid-wrap">
+      <div class="table-grid fix-header fix-left fix-right table-db-source"
+        style="--col: 150px minmax(150px, 1fr) 120px 140px 120px 150px 200px 200px 120px 200px 200px 100px 150px 150px 150px 160px;">
+        <div class="table-grid-head">
+          <div class="grid-row">
+            <div class="grid-cell">数据库来源编码</div>
+            <div class="grid-cell">数据库来源名称</div>
+            <div class="grid-cell">源数据库名</div>
+            <div class="grid-cell">HIT开发商名称</div>
+            <div class="grid-cell">HIT产品版本</div>
+            <div class="grid-cell">HIT系统上线时间</div>
+            <div class="grid-cell">源数据库版本</div>
+            <div class="grid-cell">源操作系统</div>
+            <div class="grid-cell">数据库前置IP</div>
+            <div class="grid-cell">目标库类型版本</div>
+            <div class="grid-cell">目标库操作系统</div>
+            <div class="grid-cell">T+N方式</div>
+            <div class="grid-cell">T+N日期</div>
+            <div class="grid-cell">是否启用T+N</div>
+            <div class="grid-cell">备注</div>
+            <div class="grid-cell">操作</div>
+          </div>
+        </div>
+        <div class="table-grid-body">
+          <div class="grid-line">
+            <div class="grid-cell">ydy</div>
+            <div class="grid-cell">ydy</div>
+            <div class="grid-cell">ydy</div>
+            <div class="grid-cell">ydy</div>
+          </div>
+          <div class="grid-row">
+            <div class="grid-cell">ydy</div>
+            <div class="grid-cell">CDR-HIS/LIS/EMR</div>
+            <div class="grid-cell">YDY</div>
+            <div class="grid-cell">医惠</div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell">SQL Server 2008</div>
+            <div class="grid-cell">Windows Server 2008</div>
+            <div class="grid-cell">172.18.67.54</div>
+            <div class="grid-cell">SQL Server 2012</div>
+            <div class="grid-cell">Windows Server 2008</div>
+            <div class="grid-cell">1</div>
+            <div class="grid-cell">2019-01-21 00:00:00</div>
+            <div class="grid-cell">
+              <div>是</div>
+            </div>
+            <div class="grid-cell">院方脱敏</div>
+            <div class="grid-cell action"><a href="javascript: void(0)">编辑</a></div>
+          </div>
+          <div class="grid-line">
+            <div class="grid-cell">ydy</div>
+            <div class="grid-cell">ydy</div>
+            <div class="grid-cell">ydy</div>
+            <div class="grid-cell">ydy</div>
+          </div>
+          <div class="grid-row">
+            <div class="grid-cell">ydyview</div>
+            <div class="grid-cell">HIS-view</div>
+            <div class="grid-cell">YDY</div>
+            <div class="grid-cell">医惠</div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell">SQL Server 2008</div>
+            <div class="grid-cell">Windows Server 2008 x64</div>
+            <div class="grid-cell">172.18.67.54</div>
+            <div class="grid-cell">SQL Server 2012</div>
+            <div class="grid-cell">Windows Server 2008 x64</div>
+            <div class="grid-cell">1</div>
+            <div class="grid-cell">2020-04-01 00:00:00</div>
+            <div class="grid-cell">
+              <div>否</div>
+            </div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell action"><a href="javascript: void(0)">编辑</a></div>
+          </div>
+          <div class="grid-line">
+            <div class="grid-cell">ydy</div>
+            <div class="grid-cell">ydy</div>
+            <div class="grid-cell">ydy</div>
+            <div class="grid-cell">ydy</div>
+          </div>
+          <div class="grid-row">
+            <div class="grid-cell">ydy_ods_history_baseline</div>
+            <div class="grid-cell">CDR-HIS/LIS/EMRhistory</div>
+            <div class="grid-cell">YDY_ODS_HISTORY_BASELINE</div>
+            <div class="grid-cell">医惠</div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell">SQL Server 2008</div>
+            <div class="grid-cell">Windows Server 2008</div>
+            <div class="grid-cell">172.18.67.50</div>
+            <div class="grid-cell">SQL Server 2012</div>
+            <div class="grid-cell">Windows Server 2008</div>
+            <div class="grid-cell">1</div>
+            <div class="grid-cell">2019-01-21 00:00:00</div>
+            <div class="grid-cell">
+              <div>否</div>
+            </div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell action"><a href="javascript: void(0)">编辑</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -7,23 +7,46 @@
   <title>Document</title>
   <style>
     .grid {
+      width: 500px;
+      height: 500px;
       display: grid;
-      grid-template-columns: 50px 50px 50px;
-      grid-template-rows: 50px 50px 50px;
+      grid-row-gap: 10px;
+      grid-column-gap: 10px;
+      grid-template-columns: [c1] 100px [c2] 100px [c3] 100px [c4];
+      grid-template-rows: [r1] 100px [r2] 100px [r3] 100px [r4];
+      justify-items: center;
+      align-items: center;
+      /* grid-template-areas: 'a b c'
+                       'd e f'
+                       'g h i'; */
+                       grid-template-areas: 'a a a'
+                     'b b b'
+                     'c c c';
+                     grid-auto-flow: row dense;
+      place-content: center center;
+    }
+    .grid-cell {
+      display: block;
+      background-color: #eee;
+      border: 1px solid #999;
+      line-height: 100%;
+    }
+    [r1] {
+      background-color: #999;
     }
   </style>
 </head>
 <body>
   <div class="grid">
-    <div>1</div>
-    <div>2</div>
-    <div>3</div>
-    <div>4</div>
-    <div>5</div>
-    <div>6</div>
-    <div>7</div>
-    <div>8</div>
-    <div>9</div>
+    <div class="grid-cell">1</div>
+    <div class="grid-cell">2</div>
+    <div class="grid-cell">3</div>
+    <div class="grid-cell">4</div>
+    <div class="grid-cell">5</div>
+    <div class="grid-cell">6</div>
+    <div class="grid-cell">7</div>
+    <div class="grid-cell">8</div>
+    <div class="grid-cell">9000000000000000hsdjkksdfajhklafhkfsk</div>
   </div>
 </body>
 </html>

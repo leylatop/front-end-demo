@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iframe Resizer</title>
+<style>
+  #resizer {
+    width: 300px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    resize: both;
+    border: 1px solid black;
+  }
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
+</head>
+<body>
+
+<div id="resizer">
+  <iframe id="myIframe" srcdoc="<style> * {margin: 0; padding: 0}</style><p>Your ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhkYour ChatGPT HTML content here...sdhdahhkdahkadhkadhkadhk</p>"></iframe>
+</div>
+
+<script>
+  const resizer = document.getElementById('resizer');
+  let originalWidth, originalHeight, originalMouseX, originalMouseY;
+
+  resizer.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    originalWidth = parseFloat(getComputedStyle(resizer, null).getPropertyValue('width').replace('px', ''));
+    originalHeight = parseFloat(getComputedStyle(resizer, null).getPropertyValue('height').replace('px', ''));
+    originalMouseX = e.pageX;
+    originalMouseY = e.pageY;
+    window.addEventListener('mousemove', resizeIframe);
+    window.addEventListener('mouseup', stopResize);
+  });
+
+  // function resizeIframe(e) {
+  //   const widthDiff = e.pageX - originalMouseX;
+  //   const heightDiff = e.pageY - originalMouseY;
+  //   resizer.style.width = originalWidth + widthDiff + 'px';
+  //   resizer.style.height = originalHeight + heightDiff + 'px';
+
+  //   // Calculate the scale factor and apply it to iframe content
+  //   const scaleX = (originalWidth + widthDiff) / originalWidth;
+  //   const scaleY = (originalHeight + heightDiff) / originalHeight;
+  //   document.getElementById('myIframe').contentDocument.body.style.transform = 'scale(' + scaleX + ',' + scaleY + ')';
+  // }
+
+  function resizeIframe(e) {
+  const widthDiff = e.pageX - originalMouseX;
+  const heightDiff = e.pageY - originalMouseY;
+
+    resizer.style.width = originalWidth + widthDiff + 'px';
+    resizer.style.height = originalHeight + heightDiff + 'px';
+
+  const newWidth = originalWidth + widthDiff;
+  const newHeight = originalHeight + heightDiff;
+
+  // Set the new width and height on the iframe element
+  const iframe = document.getElementById('myIframe');
+  
+  iframe.style.width = newWidth + 'px';
+  iframe.style.height = newHeight + 'px';
+  console.log(iframe.style.width, iframe.style.height);
+}
+
+
+  function stopResize() {
+    window.removeEventListener('mousemove', resizeIframe);
+    window.removeEventListener('mouseup', stopResize);
+  }
+</script>
+
+</body>
+</html>

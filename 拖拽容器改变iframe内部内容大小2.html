@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iframe Resizer with Actual Dimensions Recording</title>
+<style>
+  #iframeContainer {
+    width: 300px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    resize: both;
+    border: 3px solid #000;
+  }
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
+</head>
+<body>
+
+<div id="iframeContainer">
+  <iframe id="myIframe" srcdoc="<p>Your ChatGPT HTML content here...</p>"></iframe>
+</div>
+
+<script>
+  const iframeContainer = document.getElementById('iframeContainer');
+  let startX, startY, startWidth, startHeight;
+
+  iframeContainer.addEventListener('mousedown', function(e) {
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = parseInt(document.defaultView.getComputedStyle(iframeContainer).width, 10);
+    startHeight = parseInt(document.defaultView.getComputedStyle(iframeContainer).height, 10);
+    document.documentElement.addEventListener('mousemove', doDrag, false);
+    document.documentElement.addEventListener('mouseup', stopDrag, false);
+  }, false);
+
+  function doDrag(e) {
+    iframeContainer.style.width = (startWidth + e.clientX - startX) + 'px';
+    iframeContainer.style.height = (startHeight + e.clientY - startY) + 'px';
+  }
+
+  function stopDrag(e) {
+    document.documentElement.removeEventListener('mousemove', doDrag, false);    
+    document.documentElement.removeEventListener('mouseup', stopDrag, false);
+    
+    // Get the final dimensions of the iframe container
+    const finalWidth = iframeContainer.offsetWidth;
+    const finalHeight = iframeContainer.offsetHeight;
+    
+    // Send the dimensions to the server for database recording
+    sendDimensionsToServer(finalWidth, finalHeight);
+  }
+
+  // A mock function to simulate sending data to the server
+  function sendDimensionsToServer(width, height) {
+    console.log('Sending dimensions to server:', width, height);
+    // Implement an AJAX request to send the data to your server here
+    // For example, using fetch API:
+    /*
+    fetch('/api/record-dimensions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ width: width, height: height }),
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch((error) => console.error('Error:', error));
+    */
+  }
+</script>
+
+</body>
+</html>

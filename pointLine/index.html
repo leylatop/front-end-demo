@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    #container {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      border: 1px solid #ccc;
+    }
+
+    .point {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff4444;
+      border-radius: 50%;
+      cursor: move;
+      transform: translate(-50%, -50%);
+      /* 使点中心对准坐标 */
+    }
+
+    svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      /* 防止SVG拦截鼠标事件 */
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <div class="point" id="pointA"></div>
+    <div class="point" id="pointB"></div>
+    <svg>
+      <path id="connector-path" fill="none" stroke="black" stroke-width="2" />
+    </svg>
+  </div>
+  <script>
+    const container = document.getElementById('container');
+    const pointA = document.getElementById('pointA');
+    const pointB = document.getElementById('pointB');
+    const connectorPath = document.getElementById('connector-path');
+
+    // 初始化位置
+    pointA.style.left = '100px';
+    pointA.style.top = '100px';
+    pointB.style.left = '300px';
+    pointB.style.top = '300px';
+
+    // 更新连接线位置
+    function updateConnector () {
+      const aRect = pointA.getBoundingClientRect();
+      const bRect = pointB.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+
+      // 计算相对于容器的坐标
+      const ax = aRect.left - containerRect.left + aRect.width / 2;
+      const ay = aRect.top - containerRect.top + aRect.height / 2;
+      const bx = bRect.left - containerRect.left + bRect.width / 2;
+      const by = bRect.top - containerRect.top + bRect.height / 2;
+      // 添加一个中间点
+      const midX = ax;
+      const midY = by;
+      connectorPath.setAttribute('d', `M ${ax} ${ay} L ${midX} ${midY} L ${bx} ${by}`);
+      return
+    }
+    // 拖拽功能实现
+    function enableDrag (element) {
+      let isDragging = false;
+      let offsetX, offsetY;
+
+      element.addEventListener('mousedown', startDrag);
+
+      function startDrag (e) {
+        isDragging = true;
+        const rect = element.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('mouseup', stopDrag);
+      }
+
+      function onDrag (e) {
+        if (!isDragging) return;
+
+        // 计算新位置（限制在容器内）
+        let newX = e.clientX - offsetX - container.offsetLeft;
+        let newY = e.clientY - offsetY - container.offsetTop;
+
+        newX = Math.max(0, Math.min(container.offsetWidth - element.offsetWidth, newX));
+        newY = Math.max(0, Math.min(container.offsetHeight - element.offsetHeight, newY));
+
+        element.style.left = `${newX}px`;
+        element.style.top = `${newY}px`;
+
+        updateConnector();
+      }
+
+      function stopDrag () {
+        isDragging = false;
+        document.removeEventListener('mousemove', onDrag);
+        document.removeEventListener('mouseup', stopDrag);
+      }
+    }
+
+    // 启用拖拽
+    enableDrag(pointA);
+    enableDrag(pointB);
+    updateConnector();
+  </script>
+</body>
+
+</html>

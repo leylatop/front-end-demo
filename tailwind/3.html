@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel with TailwindCSS and Alpine.js</title>
+    <!-- 引入 TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-4xl mx-auto">
+        <!-- 轮播图容器 -->
+        <div x-data="carousel()" x-init="startAutoSlide" class="relative bg-white shadow-lg rounded-lg p-6">
+            <!-- 轮播图内容 -->
+            <div class="overflow-hidden">
+                <div class="flex transition-transform duration-500 ease-in-out" :style="'transform: translateX(-' + currentIndex * 100 + '%)'">
+                    <!-- 第一个滑块 -->
+                    <div class="min-w-full flex items-center justify-between p-4">
+                        <div class="w-1/2">
+                            <h2 class="text-xl font-bold text-orange-500">Thermoelectric (TEG)</h2>
+                            <p class="mt-2 text-gray-600">
+                                Evolving through up to seven product generations, these technologies are proven in real-world applications, reshaping data measurement.
+                            </p>
+                        </div>
+                        <div class="w-1/2 flex justify-center">
+                            <img src="https://via.placeholder.com/150" alt="Thermoelectric Device" class="h-32">
+                        </div>
+                    </div>
+                    <!-- 第二个滑块 -->
+                    <div class="min-w-full flex items-center justify-between p-4">
+                        <div class="w-1/2">
+                            <h2 class="text-xl font-bold text-orange-500">Electromagnetic - Current</h2>
+                            <p class="mt-2 text-gray-600">
+                                The Micro Thermal Tag harvests energy from electric fields to power current measurement, providing real-time monitoring.
+                            </p>
+                        </div>
+                        <div class="w-1/2 flex justify-center">
+                            <img src="https://via.placeholder.com/150" alt="Electromagnetic Device" class="h-32">
+                        </div>
+                    </div>
+                    <!-- 第三个滑块 -->
+                    <div class="min-w-full flex items-center justify-between p-4">
+                        <div class="w-1/2">
+                            <h2 class="text-xl font-bold text-orange-500">Photovoltaic - Light</h2>
+                            <p class="mt-2 text-gray-600">
+                                With ultra-low power consumption, the Apollo Magnet operates even in minimal light, providing efficient energy harvesting.
+                            </p>
+                        </div>
+                        <div class="w-1/2 flex justify-center">
+                            <img src="https://via.placeholder.com/150" alt="Photovoltaic Device" class="h-32">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 左右箭头 -->
+            <button @click="prevSlide" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full hover:bg-gray-300">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <button @click="nextSlide" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full hover:bg-gray-300">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+
+            <!-- 底部指示点 -->
+            <div class="flex justify-center mt-4 space-x-2">
+                <template x-for="(slide, index) in slides" :key="index">
+                    <button @click="goToSlide(index)" :class="{'w-3 h-3 rounded-full': true, 'bg-orange-500': currentIndex === index, 'bg-gray-300': currentIndex !== index}"></button>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alpine.js 逻辑 -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('carousel', () => ({
+                currentIndex: 0,
+                slides: 3, // 总共有 3 个滑块
+                autoSlideInterval: null,
+
+                // 下一页
+                nextSlide() {
+                    this.currentIndex = (this.currentIndex + 1) % this.slides;
+                },
+
+                // 上一页
+                prevSlide() {
+                    this.currentIndex = (this.currentIndex - 1 + this.slides) % this.slides;
+                },
+
+                // 跳转到指定滑块
+                goToSlide(index) {
+                    this.currentIndex = index;
+                },
+
+                // 自动滚动
+                startAutoSlide() {
+                    this.autoSlideInterval = setInterval(() => {
+                        this.nextSlide();
+                    }, 3000); // 每 3 秒切换一次
+                },
+
+                // 停止自动滚动（可选）
+                stopAutoSlide() {
+                    clearInterval(this.autoSlideInterval);
+                }
+            }));
+        });
+    </script>
+</body>
+</html>

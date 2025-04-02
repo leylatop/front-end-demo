@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #svgRoot {
+      display: block;
+      margin: 100px auto;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    #status {
+      margin: 10px auto;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="button-container">
+    <button id="startButton">
+      Start
+    </button>
+    <button id="stopButton">
+      Stop
+    </button>
+    <button id="clearButton">
+      Clear
+    </button>
+  </div>
+  <div id="status">
+    <span>
+      Status:
+    </span>
+    <span id="statusText">
+      Stopped
+    </span>
+  </div>
+  <div class="canvas-container">
+    <svg id="svgRoot" width="800" height="500" viewBox="0 0 800 500" style="border: 1px solid black;"></svg>
+  </div>
+  <script src="utils.js"></script>
+  <script>
+    let isDrawing = false;
+    let isStarted = false;
+    let startX = null;
+    let startY = null;
+    let polyline = null;
+    function updateStatusText(text) {
+      document.getElementById('statusText').textContent = text;
+    }
+    function start() {
+      isStarted = true;
+      updateStatusText('Started');
+    }
+    function stop() {
+      isStarted = false;
+      updateStatusText('Stopped');
+    }
+    function clear() {
+      const childNodes = svgRoot.childNodes
+      for(let i = 0; i <= childNodes.length - 1; i++) {
+        const child = childNodes[i]
+        child && svgRoot.removeChild(child)
+      }
+    }
+    document.getElementById('startButton').addEventListener('click', start);
+    document.getElementById('stopButton').addEventListener('click', stop);
+    document.getElementById('clearButton').addEventListener('click', clear)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        stop();
+      }
+    })
+    
+    const onMouseDown = (e) => {
+      if (!isStarted) {
+        return;
+      }
+      isDrawing = true;
+      const x = e.clientX;
+      const y = e.clientY;
+      console.log(x, y);
+      const svgRoot = document.getElementById('svgRoot');
+      const currentTransform = svgRoot.getScreenCTM().inverse();
+      const pt = transformPoint(x, y, currentTransform);
+      startX = pt.x;
+      startY = pt.y;
+      // 创建polyline元素，并添加到svgRoot中
+      polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+      polyline.setAttribute('points', `${startX},${startY}`);
+      polyline.setAttribute('stroke', 'black');
+      polyline.setAttribute('fill', 'none');
+      svgRoot.appendChild(polyline);
+    }
+    const onMouseMove = (e) => {
+      if (!isDrawing) {
+        return;
+      }
+      const x = e.clientX;
+      const y = e.clientY;
+      const svgRoot = document.getElementById('svgRoot');
+      const currentTransform = svgRoot.getScreenCTM().inverse();
+      const pt = transformPoint(x, y, currentTransform);
+      // 获取polyline的points属性中的点，并将最后一个点push到polyline的points属性中
+      const points = polyline.getAttribute('points');
+      polyline.setAttribute('points', `${points} ${pt.x},${pt.y}`);
+    }
+    const onMouseUp = (e) => {
+      if (!isDrawing) {
+        return;
+      }
+      var points = polyline.getAttribute('points');
+      var commaIndex = points.indexOf(',');
+      if (commaIndex >= 0) {
+        keep = points.indexOf(',', commaIndex + 1) >= 0;
+      } else {
+        keep = points.indexOf(' ', points.indexOf(' ') + 1) >= 0;
+      }
+      if (keep) {
+        smoothPolylineIntoPath(polyline);
+      }
+      isDrawing = false;
+    }
+    document.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+
+    const onMouseClick = (e) => {
+      if(isStarted) return
+      const target = e.target
+      if(target.tagName === 'path') {
+        const path = target
+        // 获取path路径上的d属性
+        const points = path.getAttribute('d')
+        // 对d属性进行切割，获取贝塞尔曲线控制点
+        const controlPoints = points.split(' ')
+        /**
+         
+         */
+        console.log(controlPoints);
+      }
+    }
+    document.addEventListener('click', onMouseClick);
+
+  </script>
+</body>
+
+</html>

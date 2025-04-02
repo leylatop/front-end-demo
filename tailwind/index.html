@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src=""></script>
+  <title>Document</title>
+  <style>
+    :root {
+      --text-base: 20px;
+    }
+
+    .typography {
+      p {
+        font-size: var(--text-base);
+      }
+
+      img {
+        border-radius: var(--radius-lg);
+      }
+    }
+  </style>
+
+  <style type="text/tailwindcss">
+    @theme {
+    --color-clifford: #da373d;
+    --color-primary: orange;
+    --color-myself: #929929
+  }
+  .text-clifford {
+    color: var(--color-clifford);
+  }
+  .bg-clifford {
+    background-color: var(--color-clifford);
+  }
+
+  @layer components {
+  .btn-primary {
+    border-radius: calc(infinity * 1px);
+    background-color: var(--color-primary);
+    padding-inline: --spacing(5);
+    padding-block: --spacing(2);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-black);
+    box-shadow: var(--shadow-md);
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-violet-700);
+      }
+    }
+  }
+}
+</style>
+
+</head>
+
+<body>
+  <main>
+    问题：<br />
+    1. 自定义的text-clifford会让hover和focus失效<br />
+    2. tailwindcss 怎么自定义text-xl的大小？<br />
+    3. 有字典可以查找tailwindcss 的class吗？<br />
+    4. group:hover
+    5. 当你添加两个针对相同 CSS 属性的类时，在样式表中出现在后面的类会胜出。
+    6. 使用 `bg-red-500!` 为样式添加!important
+    <section class="container mx-auto">
+      <h1 class="text-3xl font-bold underline bg-clifford text-white">
+        Hello world!
+      </h1>
+      <div class="typography text-clifford hover:bg-black">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+        </p>
+      </div>
+      <a href="/" class="txext-clifford text-purple-600 hover:txext-clifford focus:text-black bg-black">link to</a>
+      <button class="border-purple-200 bg-clifford hover:bg-sky-700">Save changes</button>
+      <br>
+      问题：自定义的text-clifford会让hover和focus失效
+      <br />
+      <button
+        class="border-purple-200 text-purple-600 hover:border-transparent  hover:text-white active:bg-purple-700 hover:bg-purple-600 lg:hover:bg-indigo-600">
+        Message
+      </button>
+    </section>
+    <br />
+    默认1列<br />
+    大于sm2列<br />
+    大于md3列<br />
+    <section class="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+      <div>
+        1
+      </div>
+      <div>
+        2
+      </div>
+      <div>
+        3
+      </div>
+    </section>
+    <section class="border">
+      group功能
+      group 命名可以重复，影响离子元素的是离它最近的父元素
+      <br>
+      <div href="#" class="group rounded-lg p-8">
+        hover父元素时，Read more… 会加下划线
+        <span class="group-hover:underline">Read more…</span>
+      </div>
+      <button href="#" class="group rounded-lg p-8">
+        hover父元素时，Read more… 会改变颜色
+        <span class="group-focus:text-clifford">Read more…</span>
+      </button>
+    </section>
+    <div class="[&>[data-active]+span]:text-blue-600 ...">
+      <span data-active>
+        下一个元素变颜色
+      </span>
+      <span>This text will be blue</span>
+      <hr>
+      <br />
+      <code>
+        div > [data-active] + span {
+          color: var(--color-blue-600);
+        }
+      </code>
+    </div>
+
+    <div>
+      <div class="flex items-center space-x-2 text-base">
+        <h4 class="font-semibold text-slate-900">Contributors</h4>
+        <span class="bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-700 ...">204</span>
+      </div>
+      <div class="mt-3 flex -space-x-2 overflow-hidden">
+        {#each contributors as user}
+        <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" src={user.avatarUrl} alt={user.handle} />
+        {/each}
+      </div>
+      <div class="mt-3 text-sm font-medium">
+        <a href="#" class="text-blue-500">+ 198 others</a>
+      </div>
+    </div>
+    <div>
+      使用btn-primary 组件
+      <button class="btn-primary">hello</button>
+    </div>
+    <button
+      class="bg-violet-500 hover:bg-violet-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700">
+      hello
+    </button>
+
+    <input type="text" value="tbone"
+      class="invalid:border-pink-500 invalid:text-pink-600 focus:border-sky-500 focus:outline focus:outline-sky-500 focus:invalid:border-pink-500 focus:invalid:outline-pink-500 disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none dark:disabled:border-gray-700 dark:disabled:bg-gray-800/20 ..." />
+
+    <div class="py-0 not-prose overflow-auto rounded-lg bg-white outline outline-white/5 dark:bg-gray-950/50 p-8">
+      <div
+        class="mx-auto max-w-md border-x border-x-gray-200 px-4 py-6 text-gray-700 dark:border-x-gray-800 dark:bg-gray-950/10 dark:text-gray-200">
+        <fieldset>
+          <legend class="text-base font-semibold text-gray-900 dark:text-white">Payment method</legend>
+          使用 has-checked: 设置选中的状态
+          <div class="mt-4 space-y-2">
+            <label for="apple"
+              class="grid grid-cols-[24px_1fr_auto] items-center gap-6 rounded-lg p-4 ring-1 ring-transparent hover:bg-gray-100 has-checked:bg-indigo-50 has-checked:text-indigo-800 has-checked:ring-indigo-200 dark:hover:bg-white/5 dark:has-checked:bg-indigo-950 dark:has-checked:text-indigo-200 dark:has-checked:ring-indigo-900"><svg
+                class="w-8" fill="currentColor" viewBox="0 0 24 13">
+                <path
+                  d="M3.96299 1.735C3.22833 1.73504 2.50814 1.9393 1.88285 2.32497C1.25756 2.71063 0.751781 3.26252 0.42199 3.919C0.144511 4.47115 0 5.08054 0 5.6985C0 6.31645 0.144511 6.92584 0.42199 7.478C0.751781 8.13447 1.25756 8.68636 1.88285 9.07202C2.50814 9.45769 3.22833 9.66195 3.96299 9.662C5.03299 9.662 5.93299 9.31 6.58999 8.705C7.33799 8.015 7.76999 6.995 7.76999 5.789C7.76976 5.51882 7.74634 5.24916 7.69999 4.983H3.96399V6.509H6.10399C6.06043 6.75276 5.96798 6.98519 5.83221 7.19228C5.69644 7.39937 5.52016 7.57684 5.31399 7.714C4.95799 7.955 4.49999 8.093 3.96399 8.093C2.92999 8.093 2.05299 7.396 1.73899 6.457C1.57315 5.96493 1.57315 5.43207 1.73899 4.94C2.05299 4 2.92999 3.304 3.96399 3.304C4.52899 3.29475 5.07496 3.50811 5.48399 3.898L6.61599 2.768C5.89873 2.09384 4.94728 1.72362 3.96299 1.735ZM10.464 2.285V9.185H11.35V6.39H12.815C13.418 6.39 13.925 6.194 14.337 5.802C14.5421 5.61815 14.705 5.39214 14.8146 5.13945C14.9242 4.88676 14.9779 4.61337 14.972 4.338C14.9762 4.06405 14.9216 3.79238 14.8121 3.54125C14.7026 3.29011 14.5406 3.06533 14.337 2.882C14.1354 2.68674 13.897 2.53337 13.6358 2.43073C13.3746 2.32809 13.0956 2.27822 12.815 2.284L10.464 2.285ZM12.891 3.135C13.0456 3.13769 13.1981 3.17139 13.3395 3.23408C13.4808 3.29678 13.6082 3.3872 13.714 3.5C13.8267 3.60959 13.9162 3.74065 13.9774 3.88544C14.0385 4.03024 14.07 4.18582 14.07 4.343C14.07 4.50017 14.0385 4.65576 13.9774 4.80055C13.9162 4.94534 13.8267 5.07641 13.714 5.186C13.6007 5.30328 13.4642 5.39562 13.3132 5.45709C13.1622 5.51857 13 5.54783 12.837 5.543H11.35V3.135H12.837C12.855 3.13458 12.873 3.13458 12.891 3.135ZM17.015 4.31C16.173 4.31 15.538 4.618 15.108 5.235L15.889 5.726C16.177 5.309 16.569 5.1 17.064 5.1C17.3798 5.09612 17.6855 5.21145 17.92 5.423C18.0354 5.51846 18.1282 5.63844 18.1915 5.77423C18.2548 5.91001 18.2871 6.05818 18.286 6.208V6.41C17.946 6.217 17.512 6.121 16.986 6.121C16.369 6.121 15.876 6.266 15.507 6.555C15.137 6.843 14.953 7.232 14.953 7.72C14.949 7.9396 14.994 8.15734 15.0848 8.35733C15.1757 8.55732 15.31 8.73451 15.478 8.876C15.828 9.184 16.263 9.339 16.783 9.339C17.393 9.339 17.881 9.069 18.248 8.529H18.286V9.184H19.134V6.275C19.134 5.665 18.944 5.185 18.566 4.835C18.186 4.485 17.67 4.31 17.015 4.31ZM19.278 4.464L21.224 8.886L20.126 11.266H21.041L24 4.463H23.035L21.667 7.854H21.647L20.241 4.464H19.278ZM17.132 6.832C17.626 6.832 18.012 6.942 18.288 7.162C18.288 7.534 18.141 7.858 17.848 8.135C17.5835 8.39951 17.225 8.54839 16.851 8.549C16.6011 8.55376 16.3573 8.47178 16.161 8.317C16.0697 8.25093 15.9954 8.16402 15.9445 8.06349C15.8935 7.96295 15.8673 7.85171 15.868 7.739C15.868 7.482 15.988 7.269 16.231 7.092C16.471 6.919 16.772 6.832 17.132 6.832Z">
+                </path>
+              </svg>Google Pay<input id="apple"
+                class="box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] border-white bg-white bg-clip-padding ring-1 ring-gray-950/20 outline-none checked:border-indigo-500 checked:ring-indigo-500"
+                type="radio" value="google" checked="" name="payment_method"></label><label for="google"
+              class="grid grid-cols-[24px_1fr_auto] items-center gap-6 rounded-lg p-4 ring-1 ring-transparent hover:bg-gray-100 has-checked:bg-indigo-50 has-checked:text-indigo-800 has-checked:ring-indigo-200 dark:hover:bg-white/5 dark:has-checked:bg-indigo-950 dark:has-checked:text-indigo-200 dark:has-checked:ring-indigo-900"><svg
+                class="mt-1 w-8 fill-current" fill="currentColor" viewBox="0 0 24 13">
+                <path
+                  d="M4.38526 1.86704C4.10401 2.19606 3.65392 2.45565 3.20387 2.41854C3.14762 1.97367 3.36793 1.50091 3.62579 1.20892C3.90704 0.870635 4.39932 0.62962 4.79781 0.611084C4.84468 1.07453 4.66182 1.52871 4.38526 1.86704ZM4.79312 2.50663C4.14146 2.46956 3.5836 2.87272 3.27418 2.87272C2.96012 2.87272 2.48659 2.52517 1.97092 2.53443C1.30056 2.5437 0.677025 2.91906 0.33479 3.51694C-0.368428 4.71265 0.151978 6.48308 0.831712 7.45632C1.16457 7.9383 1.56306 8.46662 2.0881 8.44809C2.58507 8.42955 2.78195 8.12834 3.38204 8.12834C3.98677 8.12834 4.16026 8.44809 4.68531 8.43882C5.2291 8.42955 5.57134 7.95688 5.9042 7.47485C6.28388 6.92799 6.43862 6.39499 6.44799 6.36718C6.43862 6.35791 5.3979 5.96402 5.38853 4.77753C5.37915 3.78576 6.20893 3.31304 6.24643 3.28524C5.77759 2.59931 5.04629 2.52517 4.79312 2.50663ZM8.55765 1.16258V8.38789H9.69212V5.91768H11.2626C12.6971 5.91768 13.7051 4.94445 13.7051 3.53552C13.7051 2.12664 12.7159 1.16262 11.3001 1.16262H8.5576L8.55765 1.16258ZM9.69212 2.10806H11.0001C11.9846 2.10806 12.5471 2.62711 12.5471 3.54011C12.5471 4.4531 11.9846 4.97684 10.9954 4.97684H9.69212V2.10806ZM15.7772 8.44345C16.4898 8.44345 17.1508 8.08664 17.4508 7.52119H17.4743V8.38785H18.5244V4.79143C18.5244 3.74868 17.6806 3.07666 16.3819 3.07666C15.1771 3.07666 14.2864 3.75795 14.2536 4.69412H15.2756C15.36 4.24921 15.7771 3.95722 16.3491 3.95722C17.043 3.95722 17.4321 4.27701 17.4321 4.86562V5.26415L16.0163 5.34756C14.6989 5.42634 13.9864 5.95934 13.9864 6.88629C13.9864 7.82245 14.7224 8.44345 15.7772 8.44345ZM16.0819 7.58607C15.4772 7.58607 15.0927 7.29876 15.0927 6.85844C15.0927 6.4043 15.4631 6.14012 16.171 6.09841L17.4321 6.01963V6.42743C17.4321 7.10408 16.8508 7.58607 16.0819 7.58607H16.0819ZM19.9261 10.3529C21.0325 10.3529 21.5529 9.93584 22.0076 8.67057L24 3.14617H22.8467L21.5107 7.41456H21.4872L20.1511 3.14617H18.9651L20.8871 8.40638L20.784 8.72618C20.6106 9.2684 20.3293 9.47698 19.8277 9.47698C19.7386 9.47698 19.5652 9.46771 19.4948 9.45844V10.3251C19.5604 10.3436 19.8417 10.3529 19.9261 10.3529Z">
+                </path>
+              </svg>Apple Pay<input id="google"
+                class="box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] border-white bg-white bg-clip-padding ring-1 ring-gray-950/20 outline-none checked:border-indigo-500 checked:ring-indigo-500"
+                type="radio" value="apple" name="payment_method"></label><label for="credit-card"
+              class="grid grid-cols-[24px_1fr_auto] items-center gap-6 rounded-lg p-4 ring-1 ring-transparent hover:bg-gray-100 has-checked:bg-indigo-50 has-checked:text-indigo-800 has-checked:ring-indigo-200 dark:hover:bg-white/5 dark:has-checked:bg-indigo-950 dark:has-checked:text-indigo-200 dark:has-checked:ring-indigo-900"><svg
+                class="w-8" viewBox="0 0 24 13" fill="none">
+                <rect stroke="currentColor" x="0.5" y="0.5" width="23" height="11" rx="1.5"></rect>
+                <path fill="currentColor"
+                  d="M16.539 3.18591C16.0742 3.01652 15.5828 2.93152 15.088 2.93491C13.488 2.93491 12.358 3.74091 12.35 4.89791C12.34 5.74791 13.153 6.22691 13.768 6.51091C14.399 6.80291 14.61 6.98691 14.608 7.24791C14.604 7.64491 14.104 7.82491 13.639 7.82491C13 7.82491 12.651 7.73591 12.114 7.51291L11.915 7.41991L11.688 8.75191C12.077 8.91391 12.778 9.05291 13.502 9.06491C15.203 9.06491 16.315 8.26391 16.328 7.03291C16.342 6.35391 15.902 5.84091 14.976 5.41691C14.413 5.14191 14.064 4.95791 14.064 4.67891C14.064 4.43191 14.363 4.16791 14.988 4.16791C15.404 4.15785 15.8174 4.23589 16.201 4.39691L16.351 4.46391L16.578 3.17691L16.539 3.18591ZM20.691 3.04291H19.441C19.052 3.04291 18.759 3.14991 18.589 3.53591L16.185 8.98191H17.886L18.226 8.08891L20.302 8.09091C20.351 8.29991 20.501 8.98191 20.501 8.98191H22.001L20.691 3.04291ZM10.049 2.99291H11.67L10.656 8.93491H9.03705L10.049 2.99091V2.99291ZM5.93405 6.26791L6.10205 7.09291L7.68605 3.04291H9.40305L6.85205 8.97391H5.13905L3.73905 3.95191C3.71637 3.8691 3.66312 3.79798 3.59005 3.75291C3.08545 3.49225 2.55079 3.29444 1.99805 3.16391L2.02005 3.03891H4.62905C4.98305 3.05291 5.26805 3.16391 5.36305 3.54191L5.93305 6.27091L5.93405 6.26791ZM18.691 6.87391L19.337 5.21191C19.329 5.22991 19.47 4.86891 19.552 4.64591L19.663 5.15891L20.038 6.87291H18.69L18.691 6.87391Z">
+                </path>
+              </svg>Credit Card<input id="credit-card"
+                class="box-content h-1.5 w-1.5 appearance-none rounded-full border-[5px] border-white bg-white bg-clip-padding ring-1 ring-gray-950/20 outline-none checked:border-indigo-500 checked:ring-indigo-500"
+                type="radio" value="credit-card" name="payment_method"></label>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <br>
+    group-has-[a]:block 如果父元素中包含a标签，该元素才展示为block
+    默认为 hidden
+    <div
+      class="mx-auto grid max-w-md divide-y divide-gray-100 border-x border-x-gray-200 text-gray-700 dark:divide-gray-800 dark:border-x-gray-800 dark:bg-gray-950/10 dark:text-gray-300">
+      <div class="group grid grid-cols-[32px_1fr_auto] items-center gap-x-4 px-4 py-4 pt-6"><img
+          class="size-[32px] rounded-full" alt=""
+          src="https://spotlight.tailwindui.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.51a13c67.jpg&amp;w=128&amp;q=80">
+        <div class="font-semibold text-gray-900 dark:text-white">Spencer Sharp</div><svg fill="none" viewBox="0 0 24 24"
+          stroke-width="1.5" stroke="currentColor" class="hidden size-4 group-has-[a]:block">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"></path>
+        </svg>
+        <p class="col-start-2 text-sm">Product Designer at <a class="dark;text-blue-400 text-blue-500 underline"
+            href="#">planeteria.tech</a></p>
+      </div>
+      <div class="group grid grid-cols-[32px_1fr_auto] items-center gap-x-4 px-4 py-4"><img
+          class="size-[32px] rounded-full" alt=""
+          src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&amp;w=256&amp;h=256&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        <div class="font-semibold text-gray-900 dark:text-white">Casey Jordan</div><svg fill="none" viewBox="0 0 24 24"
+          stroke-width="1.5" stroke="currentColor" class="hidden size-4 group-has-[a]:block">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"></path>
+        </svg>
+        <p class="col-start-2 text-sm">Just happy to be here.</p>
+      </div>
+      <div class="group grid grid-cols-[32px_1fr_auto] items-center gap-x-4 px-4 py-4"><img
+          class="size-[32px] rounded-full" alt=""
+          src="https://images.unsplash.com/photo-1590895340509-793cb98788c9?q=80&amp;w=256&amp;h=256&amp;&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        <div class="font-semibold text-gray-900 dark:text-white">Alex Reed</div><svg fill="none" viewBox="0 0 24 24"
+          stroke-width="1.5" stroke="currentColor" class="hidden size-4 group-has-[a]:block">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"></path>
+        </svg>
+        <p class="col-start-2 text-sm">A multidisciplinary designer, working at the intersection of art and technology.
+          <br><br><a class="dark;text-blue-400 text-blue-500 underline" href="#">alex-reed.com</a>
+        </p>
+      </div>
+      <div class="group grid grid-cols-[32px_1fr_auto] items-center gap-x-4 px-4 py-4 pb-6"><img
+          class="size-[32px] rounded-full" alt=""
+          src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&amp;w=256&amp;h=256&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        <div class="font-semibold text-gray-900 dark:text-white">Taylor Bailey</div><svg fill="none" viewBox="0 0 24 24"
+          stroke-width="1.5" stroke="currentColor" class="hidden size-4 group-has-[a]:block">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"></path>
+        </svg>
+        <p class="col-start-2 text-sm">Pushing pixels. Slinging divs.</p>
+      </div>
+    </div>
+    <br>
+    peer-has-checked:hidden 当peer中有被checked元素的时候，就hidden
+    <div class="py-0 not-prose overflow-auto rounded-lg bg-white outline outline-white/5 dark:bg-gray-950/50 p-8">
+      <div class="mx-auto max-w-md border-x border-x-gray-200 px-4 py-6 dark:border-x-gray-800 dark:bg-gray-950/10">
+        <fieldset class="space-y-3">
+          <legend class="text-base font-semibold text-gray-900 dark:text-white">Today</legend>
+          <div class="grid grid-cols-[1fr_24px] items-center gap-6"><label
+              class="peer grid grid-cols-[auto_1fr] items-center gap-3 rounded-md px-2 hover:bg-gray-100 dark:hover:bg-white/5">
+              <input
+                class="peer size-3.5 appearance-none rounded-sm border border-gray-300 accent-pink-500 checked:appearance-auto dark:border-gray-600 dark:accent-pink-600"
+                type="checkbox" checked=""><span
+                class="text-gray-700 select-none peer-checked:text-gray-400 peer-checked:line-through dark:text-gray-300">Create
+                a to do list</span></label>
+            <div class="size-[26px] rounded-md p-1 peer-has-checked:hidden hover:bg-red-50 hover:text-pink-500"><svg
+                fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+              </svg></div>
+          </div>
+          <div class="grid grid-cols-[1fr_24px] items-center gap-6"><label
+              class="peer grid grid-cols-[auto_1fr] items-center gap-3 rounded-md px-2 hover:bg-gray-100 dark:hover:bg-white/5"><input
+                class="peer size-3.5 appearance-none rounded-sm border border-gray-300 accent-pink-500 checked:appearance-auto dark:border-gray-600 dark:accent-pink-600"
+                type="checkbox"><span
+                class="text-gray-700 select-none peer-checked:text-gray-400 peer-checked:line-through dark:text-gray-300">Check
+                off first item</span></label>
+            <div class="size-[26px] rounded-md p-1 peer-has-checked:hidden hover:bg-red-50 hover:text-pink-500"><svg
+                fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+              </svg></div>
+          </div>
+          <div class="grid grid-cols-[1fr_24px] items-center gap-6"><label
+              class="peer grid grid-cols-[auto_1fr] items-center gap-3 rounded-md px-2 hover:bg-gray-100 dark:hover:bg-white/5"><input
+                class="peer size-3.5 appearance-none rounded-sm border border-gray-300 accent-pink-500 checked:appearance-auto dark:border-gray-600 dark:accent-pink-600"
+                type="checkbox"><span
+                class="text-gray-700 select-none peer-checked:text-gray-400 peer-checked:line-through dark:text-gray-300">Investigate
+                race condition</span></label>
+            <div class="block size-[26px] rounded-md p-1 peer-has-checked:hidden hover:bg-red-50 hover:text-pink-500">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="group is-published">
+      <div class="hidden group-[.is-published]:block">
+        Published
+      </div>
+    </div>
+
+    <fieldset>
+      类名1 peer/draft
+      类名2peer/published
+      在/前添加状态
+      <legend>Published status</legend>
+      <input id="draft" class="peer/draft" type="radio" name="status" checked />
+      <label for="draft" class="peer-checked/draft:text-sky-500">Draft</label>
+      <input id="published" class="peer/published" type="radio" name="status" />
+      <label for="published" class="peer-checked/published:text-sky-500">Published</label>
+      <div class="hidden peer-checked/draft:block">Drafts are only visible to administrators.</div>
+      <div class="hidden peer-checked/published:block">Your post will be publicly visible on your site.</div>
+    </fieldset>
+
+    使用after设置伪元素
+    <label>
+      <span class="text-gray-700 after:ml-0.5 after:text-red-500 after:content-['*'] ...">Email</span>
+      <input type="email" name="email" class="..." placeholder="you@example.com" />
+    </label>
+    <blockquote class="text-center text-2xl font-semibold text-gray-900 italic dark:text-white">
+      When you look
+      <span
+        class="relative inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-pink-500">
+        <span class="relative text-white dark:text-gray-950">annoyed</span>
+      </span>
+      all the time, people think that you're busy.
+    </blockquote>
+
+    使用 marker 设置列表圆点的样式
+    <ul role="list" class="list-disc marker:text-sky-400 ...">
+      <li>5 cups chopped Porcini mushrooms</li>
+      <li>1/2 cup of olive oil</li>
+      <li>3lb of celery</li>
+    </ul>
+
+    使用 selection 设置文本选中样式
+    <div class="selection:bg-fuchsia-300 selection:text-fuchsia-900">
+      <p>
+        So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+        my
+        way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of
+        all
+        living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+      </p>
+    </div>
+
+    一个弹窗
+    <div class="grid h-full items-center justify-center"><button popovertarget="my-popover"
+        class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Check
+        for updates</button>
+      <div popover="auto" id="my-popover"
+        class="relative inset-y-0 mx-auto my-auto transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left opacity-0 shadow-xl transition-all [transition-behavior:allow-discrete] duration-500 sm:w-full sm:max-w-96 sm:p-6 dark:bg-gray-800 [&amp;:is([open],:popover-open)]:opacity-100 [@starting-style]:[&amp;:is([open],:popover-open)]:opacity-0">
+        <div>
+          <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-600/10">
+            <svg class="size-5 text-indigo-400 dark:text-indigo-600" viewBox="0 0 20 20" fill="currentColor"
+              aria-hidden="true" data-slot="icon">
+              <path fill-rule="evenodd"
+                d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="mt-3 text-center sm:mt-5">
+            <h3 id="update-available"><a href="#update-available" class="anchor">Update available</a></h3>
+            <div class="mt-2">
+              <p class="text-sm text-gray-500 dark:text-gray-200">A new software update is available: <span
+                  class="font-semibold">v2.0.4.</span><br>Click the button below to install it.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-5"><button type="button"
+            class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2">Install</button>
+        </div>
+      </div>
+    </div>
+
+    可折叠
+    <div class="not-prose overflow-auto rounded-lg bg-white outline outline-white/5 dark:bg-gray-950/50 p-8">
+      <div class="mx-auto max-w-lg">
+        <details
+          class="rounded-lg border border-transparent p-6 open:border-black/10 open:bg-gray-100 dark:open:border-gray-700/50 dark:open:bg-gray-950/50"
+          open="">
+          <summary class="text-sm leading-6 font-semibold text-gray-900 select-none dark:text-white">Why do they call it
+            Ovaltine?</summary>
+          <div class="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
+            <p>The mug is round. The jar is round. They should call it Roundtine.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <section class="container grid grid-cols-12 mx-auto">
+      <div class="col-start-2 col-span-10 bg-black">
+        hahah
+      </div>
+    </section>
+    <section>
+      <p>
+        my self color is <span class="text-myself">yellow</span>
+      </p>
+    </section>
+
+    <body class="p-12 m-auto">
+      <div class="container flex justify-center">
+        <div class="columns-2 gap-8">
+          <div>
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;q=80">
+          </div>
+          <div class=" aspect-w-1 aspect-h-1 mt-8">
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1434394354979-a235cd36269d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2902&amp;q=80">
+          </div>
+          <div class="aspect-w-1 aspect-h-1 mt-8">
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1491904768633-2b7e3e7fede5?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=3131&amp;q=80">
+          </div>
+          <div class="sm:block  aspect-w-1 aspect-h-1 mt-8">
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1463288889890-a56b2853c40f?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=3132&amp;q=80">
+          </div>
+          <div class="sm:block  aspect-w-16 aspect-h-9 mt-8">
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1611605645802-c21be743c321?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2940&amp;q=80">
+          </div>
+          <div class="sm:block  aspect-w-1 aspect-h-1 mt-8">
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1498603993951-8a027a8a8f84?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2936&amp;q=80">
+          </div>
+          <div class="sm:block  aspect-w-1 aspect-h-1 mt-8">
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1526400473556-aac12354f3db?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2940&amp;q=80">
+          </div>
+          <div class="sm:block  aspect-w-1 aspect-h-1 mt-8">
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1617369120004-4fc70312c5e6?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1587&amp;q=80">
+          </div>
+          <div class="sm:block  aspect-w-16 aspect-h-9 mt-8">
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1518892096458-a169843d7f7f?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2940&amp;q=80">
+          </div>
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden bg-white">
+        <div class="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">
+          <div class="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
+            <div class="sm:max-w-lg">
+              <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Summer styles are finally here</h1>
+              <p class="mt-4 text-xl text-gray-500">This year, our new summer collection will shelter you from the harsh elements of a world that doesn't care if you live or die.</p>
+            </div>
+            <div>
+              <div class="mt-10">
+                <!-- Decorative image grid -->
+                <div aria-hidden="true" class="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl">
+                  <div class="absolute transform sm:top-0 sm:left-1/2 sm:translate-x-8 lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:translate-x-8">
+                    <div class="flex items-center space-x-6 lg:space-x-8">
+                      <div class="grid shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                        <div class="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
+                          <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-01.jpg" alt="" class="size-full object-cover">
+                        </div>
+                        <div class="h-64 w-44 overflow-hidden rounded-lg">
+                          <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-02.jpg" alt="" class="size-full object-cover">
+                        </div>
+                      </div>
+                      <div class="grid shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                        <div class="h-64 w-44 overflow-hidden rounded-lg">
+                          <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-03.jpg" alt="" class="size-full object-cover">
+                        </div>
+                        <div class="h-64 w-44 overflow-hidden rounded-lg">
+                          <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-04.jpg" alt="" class="size-full object-cover">
+                        </div>
+                        <div class="h-64 w-44 overflow-hidden rounded-lg">
+                          <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-05.jpg" alt="" class="size-full object-cover">
+                        </div>
+                      </div>
+                      <div class="grid shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                        <div class="h-64 w-44 overflow-hidden rounded-lg">
+                          <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-06.jpg" alt="" class="size-full object-cover">
+                        </div>
+                        <div class="h-64 w-44 overflow-hidden rounded-lg">
+                          <img src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-07.jpg" alt="" class="size-full object-cover">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+      
+                <a href="#" class="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-center font-medium text-white hover:bg-indigo-700">Shop Collection</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2>模态框</h2>
+      <div x-data="{ open: false }">
+        <button @click="open = true">Open Modal</button>
+        <div class="relative z-10" role="dialog" aria-modal="true" x-show="open" x-transition>
+          <!--
+            Background backdrop, show/hide based on modal state.
+        
+            Entering: "ease-out duration-300"
+              From: "opacity-0"
+              To: "opacity-100"
+            Leaving: "ease-in duration-200"
+              From: "opacity-100"
+              To: "opacity-0"
+          -->
+          <div class="fixed inset-0 hidden bg-gray-500/75 transition-opacity md:block" aria-hidden="true"></div>
+        
+          <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+              <!-- This element is to trick the browser into centering the modal contents. -->
+              <span class="hidden md:inline-block md:h-screen md:align-middle" aria-hidden="true">&#8203;</span>
+        
+              <!--
+                Modal panel, show/hide based on modal state.
+        
+                Entering: "ease-out duration-300"
+                  From: "opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                  To: "opacity-100 translate-y-0 md:scale-100"
+                Leaving: "ease-in duration-200"
+                  From: "opacity-100 translate-y-0 md:scale-100"
+                  To: "opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+              -->
+              <div class="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
+                <div class="relative flex w-full items-center overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                  <button type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8" @click="open = false">
+                    <span class="sr-only">Close</span>
+                    <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+        
+                  <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:items-center lg:gap-x-8">
+                    <img src="/plus-assets/img/ecommerce-images/product-page-01-featured-product-shot.jpg" alt="Back of women&#039;s Basic Tee in black." class="aspect-2/3 w-full rounded-lg bg-gray-100 object-cover sm:col-span-4 lg:col-span-5">
+                    <div class="sm:col-span-8 lg:col-span-7">
+                      <h2 class="text-xl font-medium text-gray-900 sm:pr-12">Women&#039;s Basic Tee</h2>
+        
+                      <section aria-labelledby="information-heading" class="mt-1">
+                        <h3 id="information-heading" class="sr-only">Product information</h3>
+        
+                        <p class="font-medium text-gray-900">$32</p>
+        
+                        <!-- Reviews -->
+                        <div class="mt-4">
+                          <h4 class="sr-only">Reviews</h4>
+                          <div class="flex items-center">
+                            <p class="text-sm text-gray-700">
+                              3.9
+                              <span class="sr-only"> out of 5 stars</span>
+                            </p>
+                            <div class="ml-1 flex items-center">
+                              <!-- Active: "text-yellow-400", Default: "text-gray-200" -->
+                              <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
+                              </svg>
+                              <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
+                              </svg>
+                              <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
+                              </svg>
+                              <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
+                              </svg>
+                              <svg class="size-5 shrink-0 text-gray-200" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
+                              </svg>
+                            </div>
+                            <div class="ml-4 hidden lg:flex lg:items-center">
+                              <span class="text-gray-300" aria-hidden="true">&middot;</span>
+                              <a href="#" class="ml-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">See all 512 reviews</a>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+        
+                      <section aria-labelledby="options-heading" class="mt-8">
+                        <h3 id="options-heading" class="sr-only">Product options</h3>
+        
+                        <form>
+                          <!-- Color picker -->
+                          <fieldset aria-label="Choose a color">
+                            <legend class="text-sm font-medium text-gray-900">Color</legend>
+        
+                            <div class="mt-2 flex items-center gap-x-3">
+                              <!-- Active and Checked: "ring-3 ring-offset-1" -->
+                              <label aria-label="Black" class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-gray-900 focus:outline-hidden">
+                                <input type="radio" name="color-choice" value="Black" class="sr-only">
+                                <span aria-hidden="true" class="size-8 rounded-full border border-black/10 bg-gray-900"></span>
+                              </label>
+                              <!-- Active and Checked: "ring-3 ring-offset-1" -->
+                              <label aria-label="Heather Grey" class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-gray-400 focus:outline-hidden">
+                                <input type="radio" name="color-choice" value="Heather Grey" class="sr-only">
+                                <span aria-hidden="true" class="size-8 rounded-full border border-black/10 bg-gray-400"></span>
+                              </label>
+                            </div>
+                          </fieldset>
+        
+                          <!-- Size picker -->
+                          <fieldset class="mt-8" aria-label="Choose a size">
+                            <div class="flex items-center justify-between">
+                              <div class="text-sm font-medium text-gray-900">Size</div>
+                              <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Size guide</a>
+                            </div>
+        
+                            <div class="mt-2 grid grid-cols-7 gap-2">
+                              <!--
+                                In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                              -->
+                              <label class="flex cursor-pointer items-center justify-center rounded-md border px-3 py-3 text-sm font-medium uppercase focus:outline-hidden sm:flex-1">
+                                <input type="radio" name="size-choice" value="XXS" class="sr-only">
+                                <span>XXS</span>
+                              </label>
+                              <!--
+                                In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                              -->
+                              <label class="flex cursor-pointer items-center justify-center rounded-md border px-3 py-3 text-sm font-medium uppercase focus:outline-hidden sm:flex-1">
+                                <input type="radio" name="size-choice" value="XS" class="sr-only">
+                                <span>XS</span>
+                              </label>
+                              <!--
+                                In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                              -->
+                              <label class="flex cursor-pointer items-center justify-center rounded-md border px-3 py-3 text-sm font-medium uppercase focus:outline-hidden sm:flex-1">
+                                <input type="radio" name="size-choice" value="S" class="sr-only">
+                                <span>S</span>
+                              </label>
+                              <!--
+                                In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                              -->
+                              <label class="flex cursor-pointer items-center justify-center rounded-md border px-3 py-3 text-sm font-medium uppercase focus:outline-hidden sm:flex-1">
+                                <input type="radio" name="size-choice" value="M" class="sr-only">
+                                <span>M</span>
+                              </label>
+                              <!--
+                                In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                              -->
+                              <label class="flex cursor-pointer items-center justify-center rounded-md border px-3 py-3 text-sm font-medium uppercase focus:outline-hidden sm:flex-1">
+                                <input type="radio" name="size-choice" value="L" class="sr-only">
+                                <span>L</span>
+                              </label>
+                              <!--
+                                In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                              -->
+                              <label class="flex cursor-pointer items-center justify-center rounded-md border px-3 py-3 text-sm font-medium uppercase focus:outline-hidden sm:flex-1">
+                                <input type="radio" name="size-choice" value="XL" class="sr-only">
+                                <span>XL</span>
+                              </label>
+                              <!--
+                                In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
+                                Active: "ring-2 ring-indigo-500 ring-offset-2"
+                                Checked: "border-transparent bg-indigo-600 text-white hover:bg-indigo-700", Not Checked: "border-gray-200 bg-white text-gray-900 hover:bg-gray-50"
+                              -->
+                              <label class="flex cursor-not-allowed items-center justify-center rounded-md border px-3 py-3 text-sm font-medium uppercase opacity-25 sm:flex-1">
+                                <input type="radio" name="size-choice" value="XXL" disabled class="sr-only">
+                                <span>XXL</span>
+                              </label>
+                            </div>
+                          </fieldset>
+        
+                          <button type="submit" class="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden">Add to bag</button>
+        
+                          <p class="absolute top-4 left-4 text-center sm:static sm:mt-8">
+                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">View full details</a>
+                          </p>
+                        </form>
+                      </section>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2>瀑布流</h2>
+      <div class="container mx-auto px-4">
+        <div class="columns-1 sm:columns-2 gap-4">
+          <!-- 每个图片项都需要设置margin-bottom来保持间距 -->
+          <div class="mb-4 break-inside-avoid">
+            <div>1</div>
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80">
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <div>2</div>
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1518892096458-a169843d7f7f?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1587&amp;h=1000&amp;q=80">
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <div>3</div>
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1617369120004-4fc70312c5e6?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1587&amp;h=1000&amp;q=80">
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <div>4</div>
+            <img class="w-full object-cover rounded-lg" src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80">
+          </div>
+        </div>
+      </div>
+
+      <h2>时间轴</h2>
+      <ol class="relative border-s border-gray-200 dark:border-gray-700">                  
+        <li class="mb-10 ms-4">
+      <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+      <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">February 2022</time>
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Application UI code in Tailwind CSS</h3>
+      <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order E-commerce & Marketing pages.</p>
+      <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">Learn more <svg class="w-3 h-3 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+</svg></a>
+  </li>
+  <li class="mb-10 ms-4">
+      <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+      <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">March 2022</time>
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Marketing UI design in Figma</h3>
+      <p class="text-base font-normal text-gray-500 dark:text-gray-400">All of the pages and components are first designed in Figma and we keep a parity between the two versions even as we update the project.</p>
+  </li>
+  <li class="ms-4">
+      <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+      <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">April 2022</time>
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">E-Commerce UI code in Tailwind CSS</h3>
+      <p class="text-base font-normal text-gray-500 dark:text-gray-400">Get started with dozens of web components and interactive elements built on top of Tailwind CSS.</p>
+  </li>
+</ol>
+
+<h2>卡片</h2>
+<div class="container mx-auto max-w-7xl px-4">
+  <div class="grid grid-cols-1 sm:grid-cols-12 gap-6">
+    <div class="bg-white overflow-hidden col-span-5">
+      <div class="group relative h-[450px] overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+      
+    </div>
+    <div class="bg-white overflow-hidden col-span-7">
+      <div class="group relative h-[450px] overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1518892096458-a169843d7f7f?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1587&amp;h=1000&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white overflow-hidden col-span-12">
+      <div class="group relative h-48 overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1617369120004-4fc70312c5e6?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1587&amp;h=1000&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white overflow-hidden col-span-4">
+      <div class="group relative h-48 overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white overflow-hidden col-span-4">
+      <div class="group relative h-48 overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white overflow-hidden col-span-4">
+      <div class="group relative h-48 overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white overflow-hidden col-span-4">
+      <div class="group relative h-48 overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white overflow-hidden col-span-4">
+      <div class="group relative h-48 overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white overflow-hidden col-span-4">
+      <div class="group relative h-48 overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white overflow-hidden col-span-4">
+      <div class="group relative h-48 overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white overflow-hidden col-span-4">
+      <div class="group relative h-48 overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white overflow-hidden col-span-4">
+      <div class="group relative h-48 overflow-hidden cursor-pointer">
+        <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2952&amp;h=500&amp;q=80" alt="Card Image" class="w-full h-full object-cover">
+        <!-- 默认隐藏， hover父容器显示 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 z-10">
+          <h3 class="text-lg font-semibold">Card Title</h3>
+          <p class="text-sm">This is a description of the card.</p>
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+</div>
+
+
+
+
+    </body>
+    
+  </main>
+
+</body>
+
+</html>

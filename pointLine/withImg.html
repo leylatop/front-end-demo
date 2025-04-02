@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      /* 防止SVG拦截鼠标事件 */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container mx-auto max-w-7xl">
+    <div id="container" class="relative grid grid-cols-1 md:grid-cols-2 gap-6">
+      <img id="pointAImg" src="https://picsum.photos/600/600" alt="">
+      <div>
+        <img id="pointBImg" src="https://picsum.photos/600/300" alt="">
+        <h1>标题</h1>
+        <p>内容</p>
+      </div>
+      <svg class="connector-container">
+        <path id="connector-path" fill="none" stroke="orange" stroke-width="2" marker-end="url(#circleHead)" marker-start="url(#circleTail)" />
+        <defs>
+          <marker id="circleHead" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+            <circle cx="4" cy="4" r="4" fill="orange" />
+          </marker>
+          <marker id="circleTail" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+            <circle cx="4" cy="4" r="4" fill="orange" />
+          </marker>
+        </defs>
+      </svg>
+  </div>
+  <script>
+    const container = document.getElementById('container');
+    const pointAImg = document.getElementById('pointAImg');
+    const pointBImg = document.getElementById('pointBImg');
+    const connectorPath = document.getElementById('connector-path');
+    // 更新连接线位置
+    function updateConnector () {
+      const aRect = pointAImg.getBoundingClientRect();
+      const bRect = pointBImg.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+
+      // 计算相对于容器的坐标
+      const ax = aRect.left - containerRect.left + aRect.width * 0.9; // 图片右上角坐标
+      const ay = aRect.top - containerRect.top + aRect.height * 0.1;
+      const bx = bRect.left - containerRect.left + bRect.width * 0.1; // 图片左上角坐标
+      const by = bRect.top - containerRect.top + bRect.height * 0.1;
+      // 添加一个中间点
+      const midX = ax;
+      const midY = by;
+      connectorPath.setAttribute('d', `M ${ax} ${ay} L ${midX} ${midY} L ${bx} ${by}`);
+      // 为path两端添加圆点
+      return
+    }
+
+    window.addEventListener('resize', updateConnector);
+
+    // 图片下载完毕后更新连接线
+    pointAImg.onload = updateConnector;
+    pointBImg.onload = updateConnector;
+  </script>
+</body>
+
+</html>

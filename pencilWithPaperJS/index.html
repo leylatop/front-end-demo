@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <svg id="mySVG" width="800" height="600" style="border: 1px solid red">
+    <polyline id="polyline" stroke="black" fill="transparent" stroke-width="20" stroke-linecap="round"/>
+    <path id="smoothPath" stroke="black" fill="transparent" stroke-width="20" stroke-linecap="round" />
+  </svg>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.15/paper-full.min.js"></script>
+
+  <script>
+    // 初始化 Paper.js
+    paper.setup(document.createElement('canvas')); // 不在页面中创建 canvas，只是为了使用 Paper.js 的功能
+
+    let path = new paper.Path(); // 创建一个空的路径对象，用来存储绘制的点
+    let points = []; // 存储点的数组，用于后续操作
+    let svgPolyline = document.getElementById('polyline'); // 获取SVG polyline元素
+    let isDrawing = false
+
+    let svgPath = document.getElementById('smoothPath');
+
+
+    document.addEventListener('mousedown', function (event) {
+      isDrawing = true
+    })
+    // 监听鼠标事件：在鼠标移动时绘制点
+    document.addEventListener('mousemove', function (event) {
+      if (!isDrawing) return
+      // 获取鼠标位置
+      let mousePos = new paper.Point(event.pageX, event.pageY);
+
+      // 在 Paper.js 中添加点
+      points.push(mousePos);
+      path.add(mousePos); // 将新点添加到路径中
+
+      // 更新SVG polyline的 points 属性
+      let svgPoints = points.map(p => `${p.x},${p.y}`).join(' ');
+      svgPolyline.setAttribute('points', svgPoints);
+    });
+
+    // 鼠标点击时，停止绘制并平滑路径
+    document.addEventListener('mouseup', function () {
+      if (!isDrawing) return
+
+      // 简化路径
+      path.simplify(100); // 参数10表示简化的精度
+
+      // 构建SVG路径的d属性
+      let pathData = '';
+      // debugger
+      path.segments.forEach((segment, index) => {
+        if (index === 0) {
+          // 起始点
+          pathData += `M ${segment.point.x},${segment.point.y} `;
+        } else {
+          // 贝塞尔曲线
+          let handleIn = segment.handleIn;
+          let handleOut = segment.previous.handleOut;
+          let point = segment.point;
+          let prevPoint = segment.previous.point;
+          
+          pathData += `C ${prevPoint.x + handleOut.x},${prevPoint.y + handleOut.y} `
+                   + `${point.x + handleIn.x},${point.y + handleIn.y} `
+                   + `${point.x},${point.y} `;
+        }
+      });
+
+      // 更新SVG path
+      svgPath.setAttribute('d', pathData);
+
+      // 清空polyline
+      svgPolyline.setAttribute('points', '');
+
+      // 清除 Paper.js 路径，以便重新绘制
+      points = [];
+      path.remove();
+      path = new paper.Path();
+      isDrawing = false;
+
+      // // 平滑路径
+      // path.smooth(); // 使用 Paper.js 内建的平滑方法，转化为贝塞尔曲线
+      // debugger
+      // // 获取平滑后的路径点（贝塞尔曲线控制点）
+      // let smoothPoints = path.segments.map(segment => segment.point);
+
+      // // 转换为SVG polyline点的格式
+      // let svgSmoothPoints = smoothPoints.map(p => `${p.x},${p.y}`).join(' ');
+
+      // // 更新SVG polyline
+      // svgPolyline.setAttribute('points', svgSmoothPoints);
+
+      // // 清除 Paper.js 路径，以便重新绘制
+      // points = []; // 清空点数组，准备下次绘制
+      // path.remove();
+      // isDrawing = false
+    });
+
+  </script>
+</body>
+
+</html>
